@@ -843,7 +843,820 @@
       background: #f1f5f9;
       color: #475569;
     }
-  </style>
+  
+
+    :root {
+      --sgtm-navy: #0F2B5C;
+      --sgtm-navy-dark: #0A1C3C;
+      --sgtm-blue: #1E40AF;
+      --sgtm-blue-light: #3B82F6;
+      --sgtm-gold: #FFA000;
+      --sgtm-gold-dark: #D97706;
+      --sgtm-gold-light: #FEF3C7;
+      
+      --status-green: #059669;
+      --status-green-light: #ECFDF5;
+      --status-green-border: #A7F3D0;
+      
+      --status-red: #DC2626;
+      --status-red-light: #FEF2F2;
+      --status-red-border: #FECACA;
+      
+      --slate-50: #F8FAFC;
+      --slate-100: #F1F5F9;
+      --slate-200: #E2E8F0;
+      --slate-300: #CBD5E1;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1E293B;
+      --slate-900: #0F172A;
+    }
+
+
+    
+
+    /* ==========================================================================
+       SHARED EXECUTIVE BULLETIN FRAMEWORK (CARDS, HEADER, CORPORATE BRANDING)
+       ========================================================================== */
+    
+    .executive-bulletin-card {
+      background: #FFFFFF;
+      width: 680px;
+      margin: 0 auto;
+      padding: 26px 28px 22px 28px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(15, 43, 92, 0.12), 0 8px 10px -6px rgba(15, 43, 92, 0.08);
+      color: var(--slate-900);
+      box-sizing: border-box;
+      position: relative;
+      border: 1px solid var(--slate-200);
+    }
+
+    /* CORPORATE HEADER */
+    .exec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+    }
+
+    .exec-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .exec-logo-box img {
+      height: 62px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
+    }
+
+    .exec-brand-titles h2.company-name {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      letter-spacing: 0.8px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .exec-brand-titles p.company-sub {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--slate-600);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .exec-project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #EFF6FF;
+      color: var(--sgtm-blue);
+      border: 1px solid #BFDBFE;
+      font-size: 11.5px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    .exec-project-badge::before {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background-color: var(--sgtm-blue);
+      border-radius: 50%;
+    }
+
+    /* DATE & POSTE BADGE */
+    .exec-date-card {
+      text-align: right;
+      background: linear-gradient(145deg, #FFFFFF 0%, var(--slate-50) 100%);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--slate-300);
+      border-top: 3.5px solid var(--sgtm-gold);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      min-width: 175px;
+    }
+
+    .exec-date-card .d-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--slate-600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .exec-date-card .d-value {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      letter-spacing: 0.3px;
+      line-height: 1.2;
+    }
+
+    .exec-date-card .d-poste {
+      display: inline-block;
+      margin-top: 4px;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    /* CORPORATE DOUBLE DIVIDER (NAVY + GOLD) */
+    .exec-header-divider {
+      height: 4px;
+      background: linear-gradient(to right, var(--sgtm-navy) 0%, var(--sgtm-navy) 70%, var(--sgtm-gold) 70%, var(--sgtm-gold) 100%);
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+
+    /* ==========================================================================
+       BULLETIN 1 (#export-bulletin-carriere): SPECIFIC STYLES
+       ========================================================================== */
+
+    .bulletin-carriere-title-banner {
+      background: linear-gradient(90deg, var(--sgtm-navy-dark) 0%, var(--sgtm-navy) 60%, var(--sgtm-blue) 100%);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: 6px;
+      border-left: 5px solid var(--sgtm-gold);
+      box-shadow: 0 4px 12px rgba(15, 43, 92, 0.16);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bulletin-carriere-title-banner .title-text h1 {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .bulletin-carriere-title-banner .title-text p {
+      font-size: 10px;
+      font-weight: 700;
+      color: #BFDBFE;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .bulletin-carriere-title-banner .bulletin-ref-tag {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* 3 KPI INDICATORS */
+    .kpi-indicators-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-stat-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 12px 10px 10px 10px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s;
+    }
+
+    .kpi-stat-card.total {
+      border-top: 4px solid var(--sgtm-navy);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--slate-50) 100%);
+    }
+
+    .kpi-stat-card.service {
+      border-top: 4px solid var(--status-green);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--status-green-light) 100%);
+      border-color: var(--status-green-border);
+    }
+
+    .kpi-stat-card.panne {
+      border-top: 4px solid var(--status-red);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--status-red-light) 100%);
+      border-color: var(--status-red-border);
+    }
+
+    .kpi-stat-value {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+    }
+
+    .kpi-stat-card.total .kpi-stat-value { color: var(--sgtm-navy); }
+    .kpi-stat-card.service .kpi-stat-value { color: var(--status-green); }
+    .kpi-stat-card.panne .kpi-stat-value { color: var(--status-red); }
+
+    .kpi-stat-label {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .kpi-stat-card.total .kpi-stat-label { color: var(--slate-700); }
+    .kpi-stat-card.service .kpi-stat-label { color: #065F46; }
+    .kpi-stat-card.panne .kpi-stat-label { color: #991B1B; }
+
+    .kpi-stat-pill {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 7px;
+      border-radius: 12px;
+      margin-top: 4px;
+    }
+
+    .kpi-stat-card.total .kpi-stat-pill { background: var(--slate-200); color: var(--slate-700); }
+    .kpi-stat-card.service .kpi-stat-pill { background: #D1FAE5; color: #047857; }
+    .kpi-stat-card.panne .kpi-stat-pill { background: #FEE2E2; color: #B91C1C; }
+
+    /* SECTION TITLE */
+    .exec-section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .exec-section-bar h3 {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exec-section-bar .section-count-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--slate-600);
+      background: var(--slate-100);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--slate-200);
+    }
+
+    /* QUARRY TABLE */
+    .exec-table-wrapper {
+      border: 1px solid var(--slate-300);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .exec-quarry-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: #FFFFFF;
+    }
+
+    .exec-quarry-table thead th {
+      background: linear-gradient(180deg, var(--sgtm-navy) 0%, var(--sgtm-navy-dark) 100%);
+      color: #FFFFFF;
+      padding: 10px 14px;
+      font-weight: 800;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border: none;
+    }
+
+    .exec-quarry-table thead th.th-center {
+      text-align: center;
+    }
+
+    .exec-quarry-table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--slate-200);
+      color: var(--slate-800);
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    .exec-quarry-table tbody tr:nth-child(even) td {
+      background: var(--slate-50);
+    }
+
+    .exec-quarry-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .exec-quarry-table .site-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+
+    .exec-quarry-table .site-icon {
+      font-size: 15px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .exec-quarry-table .truck-count-badge {
+      display: inline-block;
+      min-width: 32px;
+      padding: 3px 8px;
+      background: #EFF6FF;
+      color: var(--sgtm-navy);
+      border: 1px solid #BFDBFE;
+      border-radius: 6px;
+      font-size: 14.5px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .exec-quarry-table .share-pct-cell {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--slate-700);
+    }
+
+    .exec-quarry-table .share-progress-bar {
+      height: 6px;
+      background: var(--slate-200);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .exec-quarry-table .share-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sgtm-blue-light), var(--sgtm-navy));
+      border-radius: 3px;
+    }
+
+    /* TABLE TOTAL FOOTER */
+    .exec-quarry-table tfoot tr td {
+      background: var(--slate-100);
+      border-top: 2.5px solid var(--sgtm-navy);
+      padding: 11px 14px;
+      font-weight: 900;
+      font-size: 12.5px;
+      color: var(--slate-900);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .exec-quarry-table tfoot td.total-trucks-count {
+      text-align: center;
+      font-size: 16px;
+      color: var(--status-green);
+    }
+
+    .exec-quarry-table tfoot td.total-trucks-pct {
+      text-align: center;
+      font-size: 13px;
+      color: var(--status-green);
+    }
+
+    /* ==========================================================================
+       BULLETIN 2 (#export-bulletin-panne): SPECIFIC STYLES
+       ========================================================================== */
+
+    .bulletin-panne-title-banner {
+      background: linear-gradient(90deg, #1E1B4B 0%, var(--sgtm-navy) 60%, #1E3A8A 100%);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border-radius: 6px;
+      border-left: 5px solid var(--status-red);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.16);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bulletin-panne-title-banner .title-text h1 {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .bulletin-panne-title-banner .title-text p {
+      font-size: 10px;
+      font-weight: 700;
+      color: #FCA5A5;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .bulletin-panne-title-banner .bulletin-ref-tag {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #FEE2E2;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* DEDICATED BREAKDOWN EXECUTIVE STRIP (TOTAL IMMOBILIZED + METRICS) */
+    .panne-executive-summary-strip {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .panne-sum-box {
+      background: var(--slate-50);
+      border: 1.5px solid var(--slate-300);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panne-sum-box.main-alert {
+      background: var(--status-red-light);
+      border-color: var(--status-red-border);
+      border-left: 4.5px solid var(--status-red);
+    }
+
+    .panne-sum-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .panne-sum-content .sum-num {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--status-red);
+      line-height: 1.1;
+    }
+
+    .panne-sum-content .sum-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #991B1B;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .panne-sum-box.secondary-metric {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 2px;
+      border-top: 3.5px solid var(--sgtm-gold);
+    }
+
+    .panne-sum-box.secondary-metric .sec-val {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      line-height: 1.1;
+    }
+
+    .panne-sum-box.secondary-metric .sec-lbl {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--slate-600);
+      text-transform: uppercase;
+    }
+
+    /* DETAILED MAINTENANCE TABLE (4 COLUMNS) */
+    .exec-panne-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: #FFFFFF;
+    }
+
+    .exec-panne-table thead th {
+      background: linear-gradient(180deg, var(--sgtm-navy) 0%, var(--sgtm-navy-dark) 100%);
+      color: #FFFFFF;
+      padding: 10px 12px;
+      font-weight: 800;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+    }
+
+    .exec-panne-table tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--slate-200);
+      color: var(--slate-800);
+      vertical-align: middle;
+      font-size: 11.5px;
+    }
+
+    .exec-panne-table tbody tr:nth-child(even) td {
+      background: var(--slate-50);
+    }
+
+    .exec-panne-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* TRUCK MATRICULE BADGE */
+    .truck-matricule-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--status-red-light);
+      color: var(--status-red);
+      border: 1.2px solid var(--status-red-border);
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .motif-panne-text {
+      font-weight: 700;
+      color: var(--slate-900);
+      font-size: 12px;
+    }
+
+    .motif-panne-sub {
+      font-size: 10px;
+      color: var(--slate-600);
+      margin-top: 1px;
+    }
+
+    /* ATELIER & STATUT BADGES */
+    .statut-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .statut-badge.atelier-central {
+      background: #EFF6FF;
+      color: var(--sgtm-blue);
+      border: 1px solid #BFDBFE;
+    }
+
+    .statut-badge.atelier-chantier {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+
+    .statut-badge.attente-piece {
+      background: #FEE2E2;
+      color: #B91C1C;
+      border: 1px solid #FECACA;
+    }
+
+    .statut-badge.diagnostic {
+      background: #F3E8FF;
+      color: #7E22CE;
+      border: 1px solid #E9D5FF;
+    }
+
+    .observation-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate-700);
+      line-height: 1.3;
+    }
+
+    /* EMPTY STATE (100% OPERATIONAL) */
+    .panne-empty-state {
+      padding: 24px 16px;
+      text-align: center;
+      background: var(--status-green-light);
+      border: 1.5px solid var(--status-green-border);
+      border-radius: 8px;
+      color: #065F46;
+      margin: 10px 0 16px 0;
+    }
+
+    .panne-empty-state .empty-icon {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .panne-empty-state .empty-title {
+      font-size: 13.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .panne-empty-state .empty-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #047857;
+      margin-top: 2px;
+    }
+
+    /* SIGN-OFF ATELIER VISA BLOCK */
+    .panne-signoff-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--slate-200);
+    }
+
+    .signoff-box {
+      border: 1px dashed var(--slate-300);
+      border-radius: 6px;
+      padding: 8px 12px;
+      background: var(--slate-50);
+    }
+
+    .signoff-box .box-lbl {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--slate-600);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 24px; /* Space for physical signature / seal */
+    }
+
+    .signoff-box .box-sub {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--slate-600);
+    }
+
+    /* ==========================================================================
+       SHARED CORPORATE FOOTER
+       ========================================================================== */
+    .exec-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--slate-200);
+      font-size: 10px;
+      color: var(--slate-600);
+      font-weight: 700;
+    }
+
+    .exec-footer .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exec-footer .footer-tag {
+      color: var(--sgtm-navy);
+      font-weight: 900;
+    }
+
+    .exec-footer .footer-right {
+      text-align: right;
+    }
+  
+
+    /* BULLETIN TABS NAVIGATION */
+    .bulletin-tabs {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: 12px;
+      padding: 5px;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 11px 6px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+    }
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--sgtm-navy);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .export-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn-export-bulletin {
+      padding: 12px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: all 0.15s ease;
+    }
+    .btn-export-bulletin:active {
+      transform: scale(0.97);
+    }
+    .btn-export-bulletin.b1 {
+      background: linear-gradient(135deg, #1e40af 0%, #0f2b5c 100%);
+    }
+    .btn-export-bulletin.b2 {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    }
+
+</style>
 </head>
 <body>
 
@@ -950,14 +1763,24 @@
 
     <!-- SECTION 3: ACTIONS & SHARING -->
     <div class="action-panel">
-      <!-- MAIN WHATSAPP BUTTON (ULTRA HD PNG) -->
-      <button class="btn-action-primary" onclick="shareToWhatsApp()">
+      <!-- MAIN WHATSAPP BUTTON (SHARES ACTIVE TAB BULLETIN) -->
+      <button class="btn-action-primary" id="btn-main-whatsapp" onclick="shareToWhatsApp()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.025-.054-.236-.077-.541-.183-1.002-.383-1.968-.853-3.242-2.855-3.34-2.986-.099-.133-.799-1.059-.799-2.021 0-.962.503-1.436.682-1.632.179-.196.39-.245.52-.245.13 0 .26.002.373.007.12.006.279-.046.435.328.163.391.556 1.356.604 1.455.049.098.082.213.016.344-.065.131-.098.213-.196.328-.098.115-.207.256-.295.344-.099.098-.202.205-.087.402.115.197.512.845 1.102 1.37.76.677 1.401.887 1.601.986.199.099.317.087.435-.049.117-.136.505-.589.638-.791.134-.202.268-.169.45-.102.182.067 1.156.545 1.356.645.2.1.334.149.383.232.049.083.049.48-.095.885z"/>
           <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.982-1.399C8.423 21.492 10.153 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.635 0-3.17-.468-4.48-1.282l-.321-.199-2.965.832.845-2.887-.215-.337A8.165 8.165 0 0 1 3.8 12c0-4.521 3.679-8.2 8.2-8.2 4.522 0 8.2 3.679 8.2 8.2 0 4.522-3.678 8.2-8.2 8.2z"/>
         </svg>
-        <span>PARTAGER WHATSAPP (PNG Haute Qualité)</span>
+        <span id="btn-whatsapp-text">PARTAGER WHATSAPP (Bulletin 1 - Carrières)</span>
       </button>
+
+      <!-- DUAL DIRECT DOWNLOAD BUTTONS -->
+      <div class="export-dual-grid">
+        <button class="btn-export-bulletin b1" onclick="exportCarrierePNG()">
+          <span>📥 Télécharger B1 (Carrières)</span>
+        </button>
+        <button class="btn-export-bulletin b2" onclick="exportPannePNG()">
+          <span>📥 Télécharger B2 (Pannes)</span>
+        </button>
+      </div>
 
       <!-- 2 SECONDARY ACTIONS -->
       <div class="action-grid-2">
@@ -975,11 +1798,323 @@
       </button>
     </div>
 
-    <!-- PREVIEW AREA OF OFFICIAL BULLETIN -->
-    <div class="preview-section-title">Aperçu du Bulletin Officiel (Export Haute Définition)</div>
+    <!-- PREVIEW AREA OF OFFICIAL BULLETINS WITH TABS -->
+    <div class="preview-section-title">Aperçu des Bulletins Officiels (Export Haute Définition)</div>
+
+    <!-- TABS -->
+    <div class="bulletin-tabs">
+      <button class="tab-btn active" id="tab-btn-carriere" onclick="switchBulletinTab('carriere')">
+        <span>📍 Bulletin 1 (Carrières)</span>
+      </button>
+      <button class="tab-btn" id="tab-btn-panne" onclick="switchBulletinTab('panne')">
+        <span>🔴 Bulletin 2 (Pannes)</span>
+      </button>
+      <button class="tab-btn" id="tab-btn-complet" onclick="switchBulletinTab('complet')">
+        <span>📊 Synthèse Complète</span>
+      </button>
+    </div>
 
     <div class="export-card-wrapper">
-      <div id="export-bulletin">
+      <!-- TAB 1: BULLETIN 1 (CARRIERES) -->
+      <div id="tab-content-carriere" class="tab-content active">
+<!-- ==========================================================================
+       BULLETIN 1 (#export-bulletin-carriere): AFFECTATION CARRIÈRES & FLOTTE
+       ========================================================================== -->
+  <div id="export-bulletin-carriere" class="executive-bulletin-card">
+    
+    <!-- 1. CORPORATE HEADER -->
+    <header class="exec-header">
+      <div class="exec-brand-group">
+        <div class="exec-logo-box">
+          <img id="b1-logo" src="SGTM_logo.png" alt="SGTM">
+        </div>
+        <div class="exec-brand-titles">
+          <h2 class="company-name">SGTM</h2>
+          <p class="company-sub">SOCIÉTÉ GÉNÉRALE DES TRAVAUX DU MAROC</p>
+          <div class="exec-project-badge">PROJET PORT TANGER MED PASSAGERS</div>
+        </div>
+      </div>
+      
+      <div class="exec-date-card">
+        <div class="d-label">Date d'exploitation</div>
+        <div class="d-value" id="b1-date">24/09/2026</div>
+        <div class="d-poste" id="b1-poste">☀️ POSTE JOUR (06h - 18h)</div>
+      </div>
+    </header>
+
+    <!-- DOUBLE ACCENT DIVIDER (NAVY + GOLD) -->
+    <div class="exec-header-divider"></div>
+
+    <!-- 2. DOCUMENT TITLE BANNER -->
+    <div class="bulletin-carriere-title-banner">
+      <div class="title-text">
+        <h1>BULLETIN D'AFFECTATION JOURNALIÈRE DES CAMIONS</h1>
+        <p>SYNTHÈSE OPÉRATIONNELLE & RÉPARTITION PAR CARRIÈRE / DESTINATION</p>
+      </div>
+      <div class="bulletin-ref-tag">DOC-EXPL-01</div>
+    </div>
+
+    <!-- 3. KPI INDICATORS (3 METRICS: TOTAL, SERVICE, PANNE) -->
+    <div class="kpi-indicators-grid">
+      <div class="kpi-stat-card total">
+        <div class="kpi-stat-value" id="b1-kpi-tot">23</div>
+        <div class="kpi-stat-label">Total Flotte</div>
+        <div class="kpi-stat-pill">100% du parc</div>
+      </div>
+      
+      <div class="kpi-stat-card service">
+        <div class="kpi-stat-value" id="b1-kpi-srv">20</div>
+        <div class="kpi-stat-label">En Service Actif</div>
+        <div class="kpi-stat-pill" id="b1-kpi-srv-pct">87% de disponibilité</div>
+      </div>
+      
+      <div class="kpi-stat-card panne">
+        <div class="kpi-stat-value" id="b1-kpi-pan">3</div>
+        <div class="kpi-stat-label">En Panne / Atelier</div>
+        <div class="kpi-stat-pill" id="b1-kpi-pan-pct">13% immobilisé</div>
+      </div>
+    </div>
+
+    <!-- 4. QUARRY TABLE TITLE -->
+    <div class="exec-section-bar">
+      <h3><span>📍</span> 1. AFFECTATION DES CAMIONS EN SERVICE PAR CARRIÈRE</h3>
+      <div class="section-count-tag" id="b1-sites-summary">4 Sites Opérationnels</div>
+    </div>
+
+    <!-- QUARRY TABLE -->
+    <div class="exec-table-wrapper">
+      <table class="exec-quarry-table">
+        <thead>
+          <tr>
+            <th style="width: 54%;">Carrière / Destination</th>
+            <th class="th-center" style="width: 22%;">Nbre Camions</th>
+            <th class="th-center" style="width: 24%;">Part Flotte (%)</th>
+          </tr>
+        </thead>
+        <tbody id="b1-table-sites-body">
+          <tr>
+            <td>
+              <div class="site-name-cell">
+                <span class="site-icon">🏔️</span>
+                <span>Carrière Mrah Debbane</span>
+              </div>
+            </td>
+            <td style="text-align: center;"><span class="truck-count-badge">8</span></td>
+            <td class="share-pct-cell">
+              <strong>40%</strong>
+              <div class="share-progress-bar"><div class="share-progress-fill" style="width: 40%;"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="site-name-cell">
+                <span class="site-icon">⛰️</span>
+                <span>Carrière Med Agregats</span>
+              </div>
+            </td>
+            <td style="text-align: center;"><span class="truck-count-badge">7</span></td>
+            <td class="share-pct-cell">
+              <strong>35%</strong>
+              <div class="share-progress-bar"><div class="share-progress-fill" style="width: 35%;"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="site-name-cell">
+                <span class="site-icon">🏗️</span>
+                <span>Carrière Laanasser</span>
+              </div>
+            </td>
+            <td style="text-align: center;"><span class="truck-count-badge">5</span></td>
+            <td class="share-pct-cell">
+              <strong>25%</strong>
+              <div class="share-progress-bar"><div class="share-progress-fill" style="width: 25%;"></div></div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL CAMIONS EN SERVICE</td>
+            <td class="total-trucks-count" id="b1-total-service-cell">20</td>
+            <td class="total-trucks-pct">100%</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- 5. FOOTER -->
+    <footer class="exec-footer">
+      <div class="footer-left">
+        <span class="footer-tag">SGTM</span> | DIRECTION MATÉRIEL & TRANSPORT • PORT TANGER MED PASSAGERS
+      </div>
+      <div class="footer-right">
+        Édité le <span id="b1-timestamp">24/09/2026 à 20:00</span> • Document Officiel d'Exploitation
+      </div>
+    </footer>
+
+  </div>
+
+
+  
+      </div>
+
+      <!-- TAB 2: BULLETIN 2 (PANNES) -->
+      <div id="tab-content-panne" class="tab-content">
+<!-- ==========================================================================
+       BULLETIN 2 (#export-bulletin-panne): ÉTAT DÉTAILLÉ DES CAMIONS EN PANNE
+       ========================================================================== -->
+  <div id="export-bulletin-panne" class="executive-bulletin-card">
+    
+    <!-- 1. CORPORATE HEADER -->
+    <header class="exec-header">
+      <div class="exec-brand-group">
+        <div class="exec-logo-box">
+          <img id="b2-logo" src="SGTM_logo.png" alt="SGTM">
+        </div>
+        <div class="exec-brand-titles">
+          <h2 class="company-name">SGTM</h2>
+          <p class="company-sub">SOCIÉTÉ GÉNÉRALE DES TRAVAUX DU MAROC</p>
+          <div class="exec-project-badge">PROJET PORT TANGER MED PASSAGERS</div>
+        </div>
+      </div>
+      
+      <div class="exec-date-card">
+        <div class="d-label">Date du Pointage</div>
+        <div class="d-value" id="b2-date">24/09/2026</div>
+        <div class="d-poste" id="b2-poste">☀️ POSTE JOUR (06h - 18h)</div>
+      </div>
+    </header>
+
+    <!-- DOUBLE ACCENT DIVIDER (NAVY + GOLD) -->
+    <div class="exec-header-divider"></div>
+
+    <!-- 2. DOCUMENT TITLE BANNER -->
+    <div class="bulletin-panne-title-banner">
+      <div class="title-text">
+        <h1>ÉTAT DÉTAILLÉ DES CAMIONS EN PANNE & ATELIER</h1>
+        <p>SUIVI TECHNIQUE DU PARC ROULANT, IMMOBILISATIONS & INTERVENTIONS</p>
+      </div>
+      <div class="bulletin-ref-tag">DOC-MAINT-02</div>
+    </div>
+
+    <!-- 3. IMMOBILIZATION EXECUTIVE KPI STRIP -->
+    <div class="panne-executive-summary-strip">
+      <div class="panne-sum-box main-alert">
+        <div class="panne-sum-icon">⚠️</div>
+        <div class="panne-sum-content">
+          <div class="sum-num" id="b2-total-panne-count">3 UNITÉS</div>
+          <div class="sum-title">Camions Immobilisés</div>
+        </div>
+      </div>
+      
+      <div class="panne-sum-box secondary-metric">
+        <div class="sec-val" id="b2-taux-indispo">13.0%</div>
+        <div class="sec-lbl">Taux d'Indisponibilité</div>
+      </div>
+
+      <div class="panne-sum-box secondary-metric">
+        <div class="sec-val" id="b2-interventions-count">3</div>
+        <div class="sec-lbl">Actions Atelier en Cours</div>
+      </div>
+    </div>
+
+    <!-- 4. MAINTENANCE TABLE TITLE -->
+    <div class="exec-section-bar">
+      <h3><span>🔧</span> 1. REGISTRE NOMINATIF DES VÉHICULES EN PANNE</h3>
+      <div class="section-count-tag" id="b2-panne-summary">3 Véhicules Référencés</div>
+    </div>
+
+    <!-- DETAILED MAINTENANCE TABLE (4 COLUMNS) -->
+    <div class="exec-table-wrapper">
+      <table class="exec-panne-table">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Matricule / N°</th>
+            <th style="width: 28%;">Motif de la Panne</th>
+            <th style="width: 25%;">Atelier & Statut</th>
+            <th style="width: 25%;">Observation / Action</th>
+          </tr>
+        </thead>
+        <tbody id="b2-table-panne-body">
+          <tr>
+            <td>
+              <span class="truck-matricule-tag">🚛 SGTM-104</span>
+            </td>
+            <td>
+              <div class="motif-panne-text">Moteur (Surchauffe)</div>
+              <div class="motif-panne-sub">Circuit de refroidissement</div>
+            </td>
+            <td>
+              <span class="statut-badge atelier-central">Atelier Central</span>
+            </td>
+            <td>
+              <div class="observation-text">Démontage radiateur en cours. Sortie estimée 16h00.</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="truck-matricule-tag">🚛 SGTM-215</span>
+            </td>
+            <td>
+              <div class="motif-panne-text">Pneu Crevé (Arr. Droit)</div>
+              <div class="motif-panne-sub">Pneumatique chantier</div>
+            </td>
+            <td>
+              <span class="statut-badge atelier-chantier">Atelier Chantier</span>
+            </td>
+            <td>
+              <div class="observation-text">Remplacement pneu par équipe mobile.</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="truck-matricule-tag">🚛 SGTM-088</span>
+            </td>
+            <td>
+              <div class="motif-panne-text">Boîte / Embrayage</div>
+              <div class="motif-panne-sub">Transmission mécanique</div>
+            </td>
+            <td>
+              <span class="statut-badge attente-piece">Attente Pièce</span>
+            </td>
+            <td>
+              <div class="observation-text">Disque embrayage commandé magasin central.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5. SIGN-OFF / VISA BLOCK -->
+    <div class="panne-signoff-block">
+      <div class="signoff-box">
+        <div class="box-lbl">VISA DU CHEF D'ATELIER / MAINTENANCE</div>
+        <div class="box-sub">Nom & Signature : ....................................................</div>
+      </div>
+      <div class="signoff-box">
+        <div class="box-lbl">VISA DIRECTION MATÉRIEL & EXPLOITATION</div>
+        <div class="box-sub">Approbation : ...........................................................</div>
+      </div>
+    </div>
+
+    <!-- 6. FOOTER -->
+    <footer class="exec-footer">
+      <div class="footer-left">
+        <span class="footer-tag">SGTM</span> | DIRECTION TECHNIQUE & MATÉRIEL • PORT TANGER MED PASSAGERS
+      </div>
+      <div class="footer-right">
+        Émis le <span id="b2-timestamp">24/09/2026 à 20:00</span> • Fiche Technique Officielle
+      </div>
+    </footer>
+
+  </div>
+
+
+      </div>
+
+      <!-- TAB 3: BULLETIN SYNTHESE COMPLETE -->
+      <div id="tab-content-complet" class="tab-content">
+        <div id="export-bulletin">
         <!-- HEADER -->
         <div class="bulletin-header">
           <div class="bulletin-logo-box">
@@ -1061,6 +2196,7 @@
           <div style="font-weight: 900; color: var(--sgtm-navy);">SGTM - DIRECTION MATÉRIEL & TRANSPORT</div>
         </div>
       </div>
+      </div>
     </div>
 
   </div>
@@ -1132,10 +2268,18 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       // Set logos
       document.getElementById('header-logo').src = SGTM_LOGO_WHITE_BASE64;
       document.getElementById('bulletin-logo').src = SGTM_LOGO_CLEAN_BASE64;
+      if (document.getElementById('b1-logo')) document.getElementById('b1-logo').src = SGTM_LOGO_CLEAN_BASE64;
+      if (document.getElementById('b2-logo')) document.getElementById('b2-logo').src = SGTM_LOGO_CLEAN_BASE64;
 
       loadData();
       renderUI();
       setupEventListeners();
+
+      if (window.location.hash === '#panne') {
+        switchBulletinTab('panne');
+      } else if (window.location.hash === '#complet') {
+        switchBulletinTab('complet');
+      }
     });
 
     function loadData() {
@@ -1373,188 +2517,375 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       }
     }
 
-    /* RENDER BULLETIN PREVIEW FOR EXPORT */
+    /* TAB SWITCHING */
+    let currentBulletinTab = 'carriere';
+
+    function switchBulletinTab(type) {
+      currentBulletinTab = type;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+
+      const activeBtn = document.getElementById('tab-btn-' + type);
+      const activeContent = document.getElementById('tab-content-' + type);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activeContent) activeContent.classList.add('active');
+
+      const waBtnText = document.getElementById('btn-whatsapp-text');
+      if (waBtnText) {
+        if (type === 'carriere') waBtnText.textContent = "PARTAGER WHATSAPP (Bulletin 1 - Carrières)";
+        else if (type === 'panne') waBtnText.textContent = "PARTAGER WHATSAPP (Bulletin 2 - Pannes)";
+        else waBtnText.textContent = "PARTAGER WHATSAPP (Synthèse Complète)";
+      }
+    }
+
+    /* RENDER ALL 3 BULLETIN PREVIEWS FOR EXPORT */
     function renderBulletinPreview() {
       const dateParts = appData.date.split('-');
       const formattedDate = dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : appData.date;
+      const posteDisplay = appData.poste;
       
-      document.getElementById('b-date').textContent = formattedDate;
-      document.getElementById('b-poste').textContent = appData.poste;
-
       const serviceCount = appData.sites.reduce((acc, s) => acc + (parseInt(s.count) || 0), 0);
       const panneCount = parseInt(appData.panneCount) || 0;
       const totalCount = serviceCount + panneCount;
+      const dispoPct = totalCount > 0 ? Math.round((serviceCount / totalCount) * 100) : 100;
+      const pannePct = totalCount > 0 ? (100 - dispoPct) : 0;
 
-      document.getElementById('b-kpi-tot').textContent = totalCount;
-      document.getElementById('b-kpi-srv').textContent = serviceCount;
-      document.getElementById('b-kpi-pan').textContent = panneCount;
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const timestampFull = `${formattedDate} à ${timeStr}`;
 
-      document.getElementById('b-total-service-cell').textContent = serviceCount;
+      // ==========================================
+      // 1. RENDER BULLETIN 1 (CARRIERES)
+      // ==========================================
+      const b1Date = document.getElementById('b1-date');
+      if (b1Date) {
+        b1Date.textContent = formattedDate;
+        document.getElementById('b1-poste').textContent = posteDisplay.includes('Jour') ? '☀️ ' + posteDisplay.toUpperCase() : '🌙 ' + posteDisplay.toUpperCase();
+        document.getElementById('b1-kpi-tot').textContent = totalCount;
+        document.getElementById('b1-kpi-srv').textContent = serviceCount;
+        document.getElementById('b1-kpi-pan').textContent = panneCount;
+        document.getElementById('b1-kpi-srv-pct').textContent = `${dispoPct}% de disponibilité`;
+        document.getElementById('b1-kpi-pan-pct').textContent = `${pannePct}% immobilisé`;
+        document.getElementById('b1-sites-summary').textContent = `${appData.sites.length} Sites Opérationnels`;
+        document.getElementById('b1-total-service-cell').textContent = serviceCount;
+        document.getElementById('b1-timestamp').textContent = timestampFull;
 
-      // Table Sites Body (Pure count, no matricules column)
-      const tbodySites = document.getElementById('b-table-sites-body');
-      tbodySites.innerHTML = '';
-      appData.sites.forEach(s => {
-        const count = parseInt(s.count) || 0;
-        const pct = serviceCount > 0 ? Math.round((count / serviceCount) * 100) : 0;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${s.name}</strong></td>
-          <td style="text-align: center; font-size: 14px; font-weight: 900; color: var(--sgtm-blue);">${count}</td>
-          <td style="text-align: center; font-size: 11.5px; font-weight: 800; color: var(--text-muted);">${pct}%</td>
-        `;
-        tbodySites.appendChild(tr);
-      });
-
-      // Table Panne Body
-      const tbodyPanne = document.getElementById('b-table-panne-body');
-      tbodyPanne.innerHTML = '';
-      if (appData.pannes.length === 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="3" style="text-align:center; color: #10b981; font-weight: 800; padding: 10px;">✅ Aucun camion en panne - Flotte 100% opérationnelle</td>`;
-        tbodyPanne.appendChild(tr);
-      } else {
-        appData.pannes.forEach(p => {
+        const b1TableBody = document.getElementById('b1-table-sites-body');
+        b1TableBody.innerHTML = '';
+        appData.sites.forEach(s => {
+          const count = parseInt(s.count) || 0;
+          const pct = serviceCount > 0 ? Math.round((count / serviceCount) * 100) : 0;
           const tr = document.createElement('tr');
           tr.innerHTML = `
-            <td><strong style="color:#dc2626;">${p.matricule || 'N/A'}</strong></td>
-            <td>${p.motif || 'Défaillance'}</td>
-            <td>${p.observation || 'Atelier'}</td>
+            <td>
+              <div class="site-name-cell">
+                <span class="site-icon">${s.icon || '📍'}</span>
+                <span>${s.name}</span>
+              </div>
+            </td>
+            <td style="text-align: center;"><span class="truck-count-badge">${count}</span></td>
+            <td class="share-pct-cell">
+              <strong>${pct}%</strong>
+              <div class="share-progress-bar"><div class="share-progress-fill" style="width: ${pct}%;"></div></div>
+            </td>
           `;
-          tbodyPanne.appendChild(tr);
+          b1TableBody.appendChild(tr);
         });
       }
 
-      // Timestamp
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      document.getElementById('b-timestamp').textContent = `${formattedDate} à ${timeStr}`;
-    }
+      // ==========================================
+      // 2. RENDER BULLETIN 2 (PANNES & ATELIER)
+      // ==========================================
+      const b2Date = document.getElementById('b2-date');
+      if (b2Date) {
+        b2Date.textContent = formattedDate;
+        document.getElementById('b2-poste').textContent = posteDisplay.includes('Jour') ? '☀️ ' + posteDisplay.toUpperCase() : '🌙 ' + posteDisplay.toUpperCase();
+        document.getElementById('b2-total-panne-count').textContent = `${panneCount} UNITÉ${panneCount > 1 ? 'S' : ''}`;
+        document.getElementById('b2-taux-indispo').textContent = `${((panneCount / (totalCount || 1)) * 100).toFixed(1)}%`;
+        document.getElementById('b2-interventions-count').textContent = panneCount;
+        document.getElementById('b2-panne-summary').textContent = `${appData.pannes.length} Véhicules Référencés`;
+        document.getElementById('b2-timestamp').textContent = timestampFull;
 
-    /* ULTRA HIGH QUALITY EXPORT CORE (html-to-image with html2canvas fallback) */
+        const b2TableBody = document.getElementById('b2-table-panne-body');
+        b2TableBody.innerHTML = '';
+        if (appData.pannes.length === 0) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="4" style="text-align:center; color: #059669; font-weight: 800; padding: 16px;">✅ Aucun camion en panne - Parc 100% opérationnel</td>`;
+          b2TableBody.appendChild(tr);
+        } else {
+          appData.pannes.forEach(p => {
+            const tr = document.createElement('tr');
+            let badgeClass = 'atelier-chantier';
+            if ((p.observation || '').toLowerCase().includes('central')) badgeClass = 'atelier-central';
+            if ((p.observation || '').toLowerCase().includes('pièce') || (p.observation || '').toLowerCase().includes('piece')) badgeClass = 'attente-piece';
 
-    async function getRenderedBlob(format = 'png') {
-      const bulletin = document.getElementById('export-bulletin');
-
-      // 1. Try htmlToImage at pixelRatio: 3 (Ultra High Definition 300 DPI, vector fonts)
-      if (typeof htmlToImage !== 'undefined') {
-        try {
-          if (format === 'png') {
-            const blob = await htmlToImage.toBlob(bulletin, {
-              pixelRatio: 3,
-              backgroundColor: '#ffffff',
-              cacheBust: true
-            });
-            if (blob) return blob;
-          } else {
-            const dataUrl = await htmlToImage.toJpeg(bulletin, {
-              pixelRatio: 3,
-              quality: 0.98,
-              backgroundColor: '#ffffff'
-            });
-            const res = await fetch(dataUrl);
-            return await res.blob();
-          }
-        } catch(e) {
-          console.warn("htmlToImage error, falling back to html2canvas:", e);
+            tr.innerHTML = `
+              <td>
+                <span class="truck-matricule-tag">🚛 ${p.matricule || 'N/A'}</span>
+              </td>
+              <td>
+                <div class="motif-panne-text">${p.motif || 'Défaillance mécanique'}</div>
+                <div class="motif-panne-sub">Intervention requise</div>
+              </td>
+              <td>
+                <span class="statut-badge ${badgeClass}">${badgeClass === 'atelier-central' ? 'Atelier Central' : (badgeClass === 'attente-piece' ? 'Attente Pièce' : 'Atelier Chantier')}</span>
+              </td>
+              <td>
+                <div class="observation-text">${p.observation || 'Contrôle technique en cours'}</div>
+              </td>
+            `;
+            b2TableBody.appendChild(tr);
+          });
         }
       }
 
-      // 2. Fallback to html2canvas at scale 3
-      if (typeof html2canvas !== 'undefined') {
-        const canvas = await html2canvas(bulletin, {
-          scale: 3,
-          useCORS: true,
-          backgroundColor: '#ffffff',
-          logging: false
-        });
-        return new Promise(resolve => {
-          canvas.toBlob(resolve, format === 'png' ? 'image/png' : 'image/jpeg', 0.98);
-        });
-      }
+      // ==========================================
+      // 3. RENDER BULLETIN SYNTHESE COMPLETE
+      // ==========================================
+      const bDate = document.getElementById('b-date');
+      if (bDate) {
+        bDate.textContent = formattedDate;
+        document.getElementById('b-poste').textContent = posteDisplay;
+        document.getElementById('b-kpi-tot').textContent = totalCount;
+        document.getElementById('b-kpi-srv').textContent = serviceCount;
+        document.getElementById('b-kpi-pan').textContent = panneCount;
+        document.getElementById('b-total-service-cell').textContent = serviceCount;
 
-      throw new Error("No canvas rendering engine available");
+        const tbodySites = document.getElementById('b-table-sites-body');
+        tbodySites.innerHTML = '';
+        appData.sites.forEach(s => {
+          const count = parseInt(s.count) || 0;
+          const pct = serviceCount > 0 ? Math.round((count / serviceCount) * 100) : 0;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${s.name}</strong></td>
+            <td style="text-align: center; font-size: 14px; font-weight: 900; color: var(--sgtm-blue);">${count}</td>
+            <td style="text-align: center; font-size: 11.5px; font-weight: 800; color: var(--text-muted);">${pct}%</td>
+          `;
+          tbodySites.appendChild(tr);
+        });
+
+        const tbodyPanne = document.getElementById('b-table-panne-body');
+        tbodyPanne.innerHTML = '';
+        if (appData.pannes.length === 0) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="3" style="text-align:center; color: #10b981; font-weight: 800; padding: 10px;">✅ Aucun camion en panne - Flotte 100% opérationnelle</td>`;
+          tbodyPanne.appendChild(tr);
+        } else {
+          appData.pannes.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><strong style="color:#dc2626;">${p.matricule || 'N/A'}</strong></td>
+              <td>${p.motif || 'Défaillance'}</td>
+              <td>${p.observation || 'Atelier'}</td>
+            `;
+            tbodyPanne.appendChild(tr);
+          });
+        }
+
+        document.getElementById('b-timestamp').textContent = timestampFull;
+      }
     }
 
-    // 1. EXPORT TO JPG (HD)
-    async function exportToJPG() {
-      showToast('Génération JPG Haute Qualité en cours...', '⏳');
+    /* =========================================================================
+       ULTRA HIGH QUALITY EXPORT CORE (html-to-image with html2canvas fallback)
+       ========================================================================= */
+
+    function getBulletinElement(type) {
+      if (!type) type = currentBulletinTab;
+      if (type === 'carriere') return document.getElementById('export-bulletin-carriere');
+      if (type === 'panne') return document.getElementById('export-bulletin-panne');
+      return document.getElementById('export-bulletin');
+    }
+
+    function getExportDateStr() {
+      return (appData && appData.date) ? appData.date : new Date().toISOString().split('T')[0];
+    }
+
+    function triggerBlobDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+    }
+
+    async function renderBulletinBlob(elementOrId, format = 'png') {
+      const element = typeof elementOrId === 'string' ? document.getElementById(elementOrId) : elementOrId;
+      if (!element) throw new Error('Élément introuvable: ' + elementOrId);
+
+      // Handle off-screen render if currently hidden
+      const parentTab = element.closest('.tab-content');
+      const isHidden = parentTab && !parentTab.classList.contains('active');
+
+      const originalParentDisplay = isHidden ? parentTab.style.display : '';
+      const originalParentVisibility = isHidden ? parentTab.style.visibility : '';
+      const originalParentPosition = isHidden ? parentTab.style.position : '';
+      const originalParentLeft = isHidden ? parentTab.style.left : '';
+
+      if (isHidden) {
+        parentTab.style.visibility = 'hidden';
+        parentTab.style.display = 'block';
+        parentTab.style.position = 'fixed';
+        parentTab.style.left = '-9999px';
+      }
 
       try {
-        const blob = await getRenderedBlob('jpeg');
-        const link = document.createElement('a');
-        link.download = `Organisation_Camions_SGTM_${appData.date}.jpg`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
+        if (typeof htmlToImage !== 'undefined') {
+          try {
+            if (format === 'png') {
+              const blob = await htmlToImage.toBlob(element, { pixelRatio: 3, backgroundColor: '#ffffff', cacheBust: true });
+              if (blob) return blob;
+            } else {
+              const dataUrl = await htmlToImage.toJpeg(element, { pixelRatio: 3, quality: 0.98, backgroundColor: '#ffffff', cacheBust: true });
+              const res = await fetch(dataUrl);
+              return await res.blob();
+            }
+          } catch (e) {
+            console.warn('htmlToImage error, using html2canvas:', e);
+          }
+        }
 
-        showToast('Image JPG HD téléchargée avec succès !', '✅');
+        if (typeof html2canvas !== 'undefined') {
+          const canvas = await html2canvas(element, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', logging: false });
+          return new Promise((resolve, reject) => {
+            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Canvas error')), format === 'png' ? 'image/png' : 'image/jpeg', 0.98);
+          });
+        }
+
+        throw new Error('Aucun moteur de rendu disponible');
+      } finally {
+        if (isHidden) {
+          parentTab.style.display = originalParentDisplay;
+          parentTab.style.visibility = originalParentVisibility;
+          parentTab.style.position = originalParentPosition;
+          parentTab.style.left = originalParentLeft;
+        }
+      }
+    }
+
+    async function exportBulletinFile(elementOrId, format = 'png', filename) {
+      showToast(`Génération ${format.toUpperCase()} HD en cours...`, '⏳');
+      try {
+        const blob = await renderBulletinBlob(elementOrId, format);
+        triggerBlobDownload(blob, filename);
+        showToast(`Image ${format.toUpperCase()} téléchargée !`, '✅');
       } catch (err) {
         console.error(err);
-        showToast('Erreur lors de la génération JPG', '❌');
+        showToast(`Erreur export ${format.toUpperCase()}`, '❌');
       }
     }
 
-    // 2. SHARE TO WHATSAPP (ULTRA HD PNG)
-    async function shareToWhatsApp() {
-      showToast('Préparation de l\'affiche PNG HD...', '⏳');
-
+    async function shareImageOnlyWhatsApp(elementOrId, filename, shareTitle, fallbackText) {
+      showToast('Préparation de l\'image HD WhatsApp...', '⏳');
       try {
-        const blob = await getRenderedBlob('png');
-        const textMessage = buildWhatsAppMessage();
+        const blob = await renderBulletinBlob(elementOrId, 'png');
+        const file = new File([blob], filename, { type: 'image/png' });
 
-        const file = new File([blob], `Organisation_Camions_SGTM_${appData.date}.png`, { type: 'image/png' });
-
-        // Web Share API with file support on mobile (WhatsApp Android/iOS)
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({
               files: [file],
-              title: 'Organisation Camions SGTM',
-              text: textMessage
+              title: shareTitle
             });
-            showToast('Partagé avec succès !', '✅');
+            showToast('Affiche partagée avec succès !', '✅');
             return;
           } catch (shareErr) {
-            if (shareErr.name !== 'AbortError') {
-              console.warn('Share API error:', shareErr);
-            } else {
-              return;
-            }
+            if (shareErr.name === 'AbortError') return;
+            console.warn('Web Share failed, fallback:', shareErr);
           }
         }
 
-        // Direct Fallback (Desktop / non-sharing mobile browsers)
-        const link = document.createElement('a');
-        link.download = `Organisation_Camions_SGTM_${appData.date}.png`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-
-        navigator.clipboard.writeText(textMessage).then(() => {
-          showToast('Image PNG HD téléchargée & texte copié !', '📋');
-        });
-
-        const waUrl = `https://wa.me/?text=${encodeURIComponent(textMessage)}`;
-        setTimeout(() => {
-          window.open(waUrl, '_blank');
-        }, 600);
-
+        // Direct fallback
+        triggerBlobDownload(blob, filename);
+        if (fallbackText) {
+          navigator.clipboard.writeText(fallbackText);
+          showToast('Image téléchargée & résumé copié !', '📋');
+          setTimeout(() => {
+            window.open(`https://wa.me/?text=${encodeURIComponent(fallbackText)}`, '_blank');
+          }, 600);
+        } else {
+          showToast('Image HD téléchargée pour WhatsApp !', '📥');
+        }
       } catch (err) {
         console.error(err);
-        fallbackWhatsAppOnly(buildWhatsAppMessage());
+        showToast('Erreur partage WhatsApp', '❌');
       }
     }
 
-    function fallbackWhatsAppOnly(msg) {
-      navigator.clipboard.writeText(msg).then(() => {
-        showToast('Texte copié dans le presse-papier !', '📋');
-        const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, '_blank');
-      });
+    /* SPECIFIC BULLETIN EXPORTS */
+    async function exportCarrierePNG() {
+      const el = getBulletinElement('carriere');
+      await exportBulletinFile(el, 'png', `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`);
     }
 
-    // 3. COPY WHATSAPP TEXT
+    async function exportCarriereJPG() {
+      const el = getBulletinElement('carriere');
+      await exportBulletinFile(el, 'jpg', `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.jpg`);
+    }
+
+    async function shareCarriereWhatsApp() {
+      const el = getBulletinElement('carriere');
+      await shareImageOnlyWhatsApp(
+        el,
+        `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`,
+        'Bulletin Carrières - SGTM',
+        buildWhatsAppMessage('carriere')
+      );
+    }
+
+    async function exportPannePNG() {
+      const el = getBulletinElement('panne');
+      await exportBulletinFile(el, 'png', `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`);
+    }
+
+    async function exportPanneJPG() {
+      const el = getBulletinElement('panne');
+      await exportBulletinFile(el, 'jpg', `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.jpg`);
+    }
+
+    async function sharePanneWhatsApp() {
+      const el = getBulletinElement('panne');
+      await shareImageOnlyWhatsApp(
+        el,
+        `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`,
+        'Bulletin Pannes - SGTM',
+        buildWhatsAppMessage('panne')
+      );
+    }
+
+    async function exportCompletPNG() {
+      const el = getBulletinElement('complet');
+      await exportBulletinFile(el, 'png', `Synthese_Flotte_SGTM_${getExportDateStr()}.png`);
+    }
+
+    async function exportCompletJPG() {
+      const el = getBulletinElement('complet');
+      await exportBulletinFile(el, 'jpg', `Synthese_Flotte_SGTM_${getExportDateStr()}.jpg`);
+    }
+
+    /* GLOBAL ACTIVE TAB ACTIONS */
+    async function shareToWhatsApp() {
+      if (currentBulletinTab === 'carriere') return shareCarriereWhatsApp();
+      if (currentBulletinTab === 'panne') return sharePanneWhatsApp();
+      const el = getBulletinElement('complet');
+      await shareImageOnlyWhatsApp(el, `Synthese_Flotte_SGTM_${getExportDateStr()}.png`, 'Synthèse Flotte SGTM', buildWhatsAppMessage('complet'));
+    }
+
+    async function exportToJPG() {
+      if (currentBulletinTab === 'carriere') return exportCarriereJPG();
+      if (currentBulletinTab === 'panne') return exportPanneJPG();
+      return exportCompletJPG();
+    }
+
     function copyWhatsAppText() {
-      const msg = buildWhatsAppMessage();
+      const msg = buildWhatsAppMessage(currentBulletinTab);
       navigator.clipboard.writeText(msg).then(() => {
         showToast('Résumé WhatsApp copié !', '📋');
       }).catch(() => {
@@ -1562,45 +2893,101 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       });
     }
 
-    function buildWhatsAppMessage() {
+    function buildWhatsAppMessage(type = 'complet') {
       const dateParts = appData.date.split('-');
       const formattedDate = dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : appData.date;
       const serviceCount = appData.sites.reduce((acc, s) => acc + (parseInt(s.count) || 0), 0);
       const panneCount = parseInt(appData.panneCount) || 0;
       const totalCount = serviceCount + panneCount;
 
-      let txt = `🏗️ *SGTM - PROJET PORT TANGER MED PASSAGERS*\n`;
-      txt += `📋 *ORGANISATION JOURNALIÈRE DE LA FLOTTE*\n`;
-      txt += `📅 *Date :* ${formattedDate}\n`;
-      txt += `⏰ *Poste :* ${appData.poste}\n`;
-      txt += `─────────────────────────\n`;
-      txt += `📊 *BILAN GLOBAL :*\n`;
-      txt += `🚛 *Total Flotte SGTM :* ${totalCount} camions\n`;
-      txt += `🟢 *En Service :* ${serviceCount} camions\n`;
-      txt += `🔴 *En Panne :* ${panneCount} camions\n`;
-      txt += `─────────────────────────\n`;
-      txt += `📍 *RÉPARTITION PAR CARRIÈRE :*\n`;
-      
-      appData.sites.forEach(s => {
-        txt += `🔹 *${s.name} :* ${s.count || 0} camion(s)\n`;
-      });
+      let txt = `🏗️ *SGTM - PROJET PORT TANGER MED PASSAGERS*
+`;
 
-      txt += `─────────────────────────\n`;
-      txt += `🔴 *DÉTAIL DES PANNES (${panneCount}) :*\n`;
-      if (appData.pannes.length === 0) {
-        txt += `✅ Aucun camion en panne.\n`;
-      } else {
-        appData.pannes.forEach((p, i) => {
-          txt += `${i+1}. *${p.matricule || 'Camion'}* : ${p.motif || 'Panne'} (${p.observation || 'Atelier'})\n`;
+      if (type === 'carriere') {
+        txt += `📋 *BULLETIN 1 : AFFECTATION DES CAMIONS EN SERVICE*
+`;
+        txt += `📅 *Date :* ${formattedDate} | *Poste :* ${appData.poste}
+`;
+        txt += `─────────────────────────
+`;
+        txt += `🟢 *Total en Service :* ${serviceCount} camions / ${totalCount} (${Math.round((serviceCount/(totalCount||1))*100)}% dispo)
+`;
+        txt += `─────────────────────────
+`;
+        txt += `📍 *RÉPARTITION PAR CARRIÈRE :*
+`;
+        appData.sites.forEach(s => {
+          const count = parseInt(s.count) || 0;
+          const pct = serviceCount > 0 ? Math.round((count / serviceCount) * 100) : 0;
+          txt += `🔹 *${s.name} :* ${count} camion(s) (${pct}%)
+`;
         });
+      } else if (type === 'panne') {
+        txt += `🔴 *BULLETIN 2 : ÉTAT DES CAMIONS EN PANNE & ATELIER*
+`;
+        txt += `📅 *Date :* ${formattedDate} | *Poste :* ${appData.poste}
+`;
+        txt += `─────────────────────────
+`;
+        txt += `⚠️ *Total Immobilisés :* ${panneCount} camions (${((panneCount/(totalCount||1))*100).toFixed(1)}% indispo)
+`;
+        txt += `─────────────────────────
+`;
+        if (appData.pannes.length === 0) {
+          txt += `✅ Aucun camion en panne.
+`;
+        } else {
+          appData.pannes.forEach((p, i) => {
+            txt += `${i+1}. *${p.matricule || 'Camion'}* : ${p.motif || 'Panne'} [${p.observation || 'Atelier'}]
+`;
+          });
+        }
+      } else {
+        txt += `📋 *ORGANISATION GLOBALE DE LA FLOTTE*
+`;
+        txt += `📅 *Date :* ${formattedDate} | *Poste :* ${appData.poste}
+`;
+        txt += `─────────────────────────
+`;
+        txt += `📊 *BILAN GLOBAL :*
+`;
+        txt += `🚛 *Total Flotte :* ${totalCount} camions
+`;
+        txt += `🟢 *En Service :* ${serviceCount} camions
+`;
+        txt += `🔴 *En Panne :* ${panneCount} camions
+`;
+        txt += `─────────────────────────
+`;
+        txt += `📍 *AFFECTATIONS :*
+`;
+        appData.sites.forEach(s => {
+          txt += `🔹 ${s.name} : ${s.count || 0} camion(s)
+`;
+        });
+        txt += `─────────────────────────
+`;
+        txt += `🔴 *PANNES (${panneCount}) :*
+`;
+        if (appData.pannes.length === 0) {
+          txt += `✅ Aucun camion en panne.
+`;
+        } else {
+          appData.pannes.forEach((p, i) => {
+            txt += `${i+1}. *${p.matricule || 'Camion'}* : ${p.motif} (${p.observation})
+`;
+          });
+        }
       }
 
-      txt += `─────────────────────────\n`;
-      txt += `👷‍♂️ *SGTM - Direction Matériel & Transport*\n`;
+      txt += `─────────────────────────
+`;
+      txt += `👷‍♂️ *SGTM - Direction Matériel & Transport*
+`;
       return txt;
     }
 
-    // 4. RESET DAY
+    // RESET DAY
     function resetDayData() {
       if (confirm("Voulez-vous réinitialiser pour une nouvelle journée ? Les carrières existantes seront conservées.")) {
         appData.date = new Date().toISOString().split('T')[0];
