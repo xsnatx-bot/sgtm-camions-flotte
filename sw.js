@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sgtm-flotte-v3';
+const CACHE_NAME = 'sgtm-flotte-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

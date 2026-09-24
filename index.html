@@ -2776,54 +2776,85 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       const element = typeof elementOrId === 'string' ? document.getElementById(elementOrId) : elementOrId;
       if (!element) throw new Error('Élément introuvable: ' + elementOrId);
 
-      // Handle off-screen render if currently hidden
-      const parentTab = element.closest('.tab-content');
-      const isHidden = parentTab && !parentTab.classList.contains('active');
-
-      const originalParentDisplay = isHidden ? parentTab.style.display : '';
-      const originalParentVisibility = isHidden ? parentTab.style.visibility : '';
-      const originalParentPosition = isHidden ? parentTab.style.position : '';
-      const originalParentLeft = isHidden ? parentTab.style.left : '';
-
-      if (isHidden) {
-        parentTab.style.visibility = 'hidden';
-        parentTab.style.display = 'block';
-        parentTab.style.position = 'fixed';
-        parentTab.style.left = '-9999px';
+      // 1. Déterminer et activer l'onglet correspondant pour que le DOM soit calculé et visible
+      let targetTab = 'carriere';
+      if (element.id === 'export-bulletin-panne' || element.closest('#tab-content-panne')) {
+        targetTab = 'panne';
+      } else if (element.id === 'export-bulletin' || element.closest('#tab-content-complet')) {
+        targetTab = 'complet';
       }
 
-      try {
-        if (typeof htmlToImage !== 'undefined') {
-          try {
-            if (format === 'png') {
-              const blob = await htmlToImage.toBlob(element, { pixelRatio: 3, backgroundColor: '#ffffff', cacheBust: true });
-              if (blob) return blob;
-            } else {
-              const dataUrl = await htmlToImage.toJpeg(element, { pixelRatio: 3, quality: 0.98, backgroundColor: '#ffffff', cacheBust: true });
-              const res = await fetch(dataUrl);
-              return await res.blob();
+      switchBulletinTab(targetTab);
+      renderBulletinPreview();
+
+      // Laisser le temps au navigateur mobile de finaliser le rendu visuel
+      await new Promise(resolve => setTimeout(resolve, 150));
+
+      // 2. MOTEUR PRINCIPAL : html2canvas (100% compatible Safari iOS iPhone 11 et Android)
+      // Évite le bug SVG foreignObject de html-to-image qui produit une image blanche sur Safari
+      if (typeof html2canvas !== 'undefined') {
+        try {
+          const canvas = await html2canvas(element, {
+            scale: 2, // 2x Retina HD parfait pour mobile et WhatsApp (1360px)
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: Math.max(element.scrollWidth || 0, 720),
+            onclone: (clonedDoc) => {
+              const el = clonedDoc.getElementById(element.id);
+              if (el) {
+                el.style.display = 'block';
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+                const pTab = el.closest('.tab-content');
+                if (pTab) {
+                  pTab.style.display = 'block';
+                  pTab.style.visibility = 'visible';
+                  pTab.style.opacity = '1';
+                  pTab.classList.add('active');
+                }
+              }
             }
-          } catch (e) {
-            console.warn('htmlToImage error, using html2canvas:', e);
-          }
-        }
-
-        if (typeof html2canvas !== 'undefined') {
-          const canvas = await html2canvas(element, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', logging: false });
-          return new Promise((resolve, reject) => {
-            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Canvas error')), format === 'png' ? 'image/png' : 'image/jpeg', 0.98);
           });
-        }
 
-        throw new Error('Aucun moteur de rendu disponible');
-      } finally {
-        if (isHidden) {
-          parentTab.style.display = originalParentDisplay;
-          parentTab.style.visibility = originalParentVisibility;
-          parentTab.style.position = originalParentPosition;
-          parentTab.style.left = originalParentLeft;
+          const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob((b) => {
+              // Vérification stricte anti-page blanche : une image valide fait plus de 15 Ko
+              if (b && b.size > 15000) {
+                resolve(b);
+              } else {
+                reject(new Error('Canvas vide ou trop petit'));
+              }
+            }, format === 'png' ? 'image/png' : 'image/jpeg', 0.96);
+          });
+
+          if (blob) return blob;
+        } catch (h2cError) {
+          console.warn('Erreur html2canvas, tentative avec moteur de secours:', h2cError);
         }
       }
+
+      // 3. Moteur de secours secondaire : html-to-image
+      if (typeof htmlToImage !== 'undefined') {
+        try {
+          if (format === 'png') {
+            const blob = await htmlToImage.toBlob(element, { pixelRatio: 2, backgroundColor: '#ffffff', cacheBust: true });
+            if (blob && blob.size > 15000) return blob;
+          } else {
+            const dataUrl = await htmlToImage.toJpeg(element, { pixelRatio: 2, quality: 0.96, backgroundColor: '#ffffff', cacheBust: true });
+            const res = await fetch(dataUrl);
+            const blob = await res.blob();
+            if (blob && blob.size > 15000) return blob;
+          }
+        } catch (h2iErr) {
+          console.error('Échec moteur de secours htmlToImage:', h2iErr);
+        }
+      }
+
+      throw new Error('Impossible de générer l\'image (moteur indisponible)');
     }
 
     async function exportBulletinFile(elementOrId, format = 'png', filename) {
@@ -2838,7 +2869,7 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       }
     }
 
-    async function shareImageOnlyWhatsApp(elementOrId, filename, shareTitle) {
+    async function shareImageOnlyWhatsApp(elementOrId, filename) {
       showToast('Préparation de l\'affiche PNG HD...', '⏳');
       try {
         const blob = await renderBulletinBlob(elementOrId, 'png');
@@ -2862,55 +2893,69 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
         showToast('Image HD prête pour envoi WhatsApp !', '📥');
       } catch (err) {
         console.error(err);
-        showToast('Erreur partage WhatsApp', '❌');
+        showToast('Erreur génération image', '❌');
       }
     }
 
     /* SPECIFIC BULLETIN EXPORTS */
     async function exportCarrierePNG() {
+      switchBulletinTab('carriere');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('carriere');
       await exportBulletinFile(el, 'png', `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`);
     }
 
     async function exportCarriereJPG() {
+      switchBulletinTab('carriere');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('carriere');
       await exportBulletinFile(el, 'jpg', `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.jpg`);
     }
 
     async function shareCarriereWhatsApp() {
+      switchBulletinTab('carriere');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('carriere');
       await shareImageOnlyWhatsApp(
         el,
-        `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`,
-        'Bulletin Carrières - SGTM'
+        `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`
       );
     }
 
     async function exportPannePNG() {
+      switchBulletinTab('panne');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('panne');
       await exportBulletinFile(el, 'png', `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`);
     }
 
     async function exportPanneJPG() {
+      switchBulletinTab('panne');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('panne');
       await exportBulletinFile(el, 'jpg', `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.jpg`);
     }
 
     async function sharePanneWhatsApp() {
+      switchBulletinTab('panne');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('panne');
       await shareImageOnlyWhatsApp(
         el,
-        `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`,
-        'Bulletin Pannes - SGTM'
+        `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`
       );
     }
 
     async function exportCompletPNG() {
+      switchBulletinTab('complet');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('complet');
       await exportBulletinFile(el, 'png', `Synthese_Flotte_SGTM_${getExportDateStr()}.png`);
     }
 
     async function exportCompletJPG() {
+      switchBulletinTab('complet');
+      await new Promise(r => setTimeout(r, 100));
       const el = getBulletinElement('complet');
       await exportBulletinFile(el, 'jpg', `Synthese_Flotte_SGTM_${getExportDateStr()}.jpg`);
     }
