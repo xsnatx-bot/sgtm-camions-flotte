@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SGTM - Organisation Journalière Camions</title>
+  <meta name="theme-color" content="#0f2b5c">
+  
+  <!-- Fallback CDN for html2canvas with local fallback -->
+  <script src="html2canvas.min.js"></script>
+  <script>
+    if (typeof html2canvas === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>');
+    }
+  </script>
+
+  <style>
+    :root {
+      --sgtm-blue: #0f2b5c;
+      --sgtm-navy: #091a38;
+      --sgtm-light-blue: #1e40af;
+      --sgtm-accent: #2563eb;
+      --sgtm-gold: #f59e0b;
+      --status-green: #10b981;
+      --status-red: #ef4444;
+      --status-amber: #f59e0b;
+      --status-slate: #64748b;
+      --bg-page: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      padding-bottom: 90px;
+    }
+
+    /* TOP HEADER */
+    .app-header {
+      background: linear-gradient(135deg, var(--sgtm-navy) 0%, var(--sgtm-blue) 100%);
+      color: #ffffff;
+      padding: 16px 14px 20px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .sgtm-logo-img {
+      height: 44px;
+      width: auto;
+      background: #ffffff;
+      padding: 3px 6px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      object-fit: contain;
+    }
+
+    .header-titles {
+      flex: 1;
+    }
+
+    .header-titles h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .header-titles h2 {
+      font-size: 11px;
+      color: #93c5fd;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+    }
+
+    .header-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 10px;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .meta-box label {
+      display: block;
+      font-size: 10px;
+      color: #cbd5e1;
+      font-weight: 600;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .meta-box input, .meta-box select {
+      width: 100%;
+      background: #ffffff;
+      border: none;
+      outline: none;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 14px 12px;
+    }
+
+    /* KPI DASHBOARD */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .kpi-card.total::before { background: var(--sgtm-blue); }
+    .kpi-card.service::before { background: var(--status-green); }
+    .kpi-card.panne::before { background: var(--status-red); }
+    .kpi-card.dispo::before { background: var(--status-amber); }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .kpi-card.service .kpi-value { color: var(--status-green); }
+    .kpi-card.panne .kpi-value { color: var(--status-red); }
+    .kpi-card.dispo .kpi-value { color: #d97706; }
+
+    .kpi-sub {
+      font-size: 9px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* SECTION TITLES */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 10px 0;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-count {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 12px;
+    }
+
+    /* PANNE CARD SECTION */
+    .panne-container {
+      background: #fff;
+      border-radius: 14px;
+      border: 1.5px solid #fecaca;
+      box-shadow: 0 3px 10px rgba(239, 68, 68, 0.08);
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .panne-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #fecaca;
+    }
+
+    .panne-badge-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panne-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--status-red);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    .counter-widget {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-step {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+      transition: all 0.15s ease;
+    }
+
+    .btn-step:active {
+      transform: scale(0.92);
+      background: #f1f5f9;
+    }
+
+    .counter-input {
+      width: 48px;
+      height: 38px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 900;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      background: #f8fafc;
+    }
+
+    .panne-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .panne-item-row {
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .panne-row-fields {
+      display: grid;
+      grid-template-columns: 1.2fr 1.3fr auto;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .panne-item-row input, .panne-item-row select {
+      padding: 7px 9px;
+      border-radius: 6px;
+      border: 1px solid #fca5a5;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      outline: none;
+    }
+
+    .btn-del-item {
+      background: #fee2e2;
+      border: 1px solid #f87171;
+      color: #dc2626;
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .btn-add-panne {
+      margin-top: 8px;
+      width: 100%;
+      background: #fff;
+      border: 1.5px dashed #f87171;
+      color: #dc2626;
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* CARRIÈRES & SITES SECTION */
+    .sites-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .site-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+      padding: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .site-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .site-icon {
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
+      background: #eff6ff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sgtm-light-blue);
+    }
+
+    .site-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--sgtm-navy);
+      text-transform: uppercase;
+    }
+
+    .site-custom-badge {
+      font-size: 9px;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .btn-del-site {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+
+    .site-trucks-input-wrap {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .site-trucks-input-wrap label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .site-trucks-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      outline: none;
+    }
+
+    .site-trucks-input:focus {
+      border-color: var(--sgtm-accent);
+      background: #f8fafc;
+    }
+
+    /* ADD NEW SITE BUTTON */
+    .btn-add-site-dialog {
+      width: 100%;
+      background: #eff6ff;
+      border: 2px dashed #93c5fd;
+      color: #1d4ed8;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add-site-dialog:hover, .btn-add-site-dialog:active {
+      background: #dbeafe;
+    }
+
+    /* ACTION BUTTONS (BOTTOM FIXED BAR + INLINE) */
+    .action-panel {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+
+    .btn-action-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      margin-bottom: 10px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action-primary:active {
+      transform: scale(0.98);
+    }
+
+    .action-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn-action-secondary {
+      background: var(--sgtm-blue);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(15, 43, 92, 0.25);
+    }
+
+    .btn-action-secondary.amber {
+      background: #d97706;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+    }
+
+    .btn-action-outline {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* PREVIEW & EXPORT CONTAINER */
+    .preview-section-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      margin: 20px 0 10px 0;
+      text-align: center;
+    }
+
+    .export-card-wrapper {
+      background: #e2e8f0;
+      padding: 10px;
+      border-radius: 16px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    /* OFFICIAL SGTM DISPATCH BULLETIN (RENDERED FOR JPG/PNG) */
+    #export-bulletin {
+      background: #ffffff;
+      width: 680px;
+      margin: 0 auto;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      color: #0f172a;
+      box-sizing: border-box;
+      font-size: 13px;
+    }
+
+    .bulletin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--sgtm-blue);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .bulletin-logo-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bulletin-logo-box img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .bulletin-company-title h3 {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      letter-spacing: 0.5px;
+    }
+
+    .bulletin-company-title p {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--sgtm-light-blue);
+      text-transform: uppercase;
+    }
+
+    .bulletin-date-badge {
+      text-align: right;
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .bulletin-date-badge .d-date {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+    }
+
+    .bulletin-date-badge .d-poste {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--sgtm-accent);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .bulletin-doc-title {
+      text-align: center;
+      background: linear-gradient(90deg, var(--sgtm-navy), var(--sgtm-blue), var(--sgtm-navy));
+      color: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* BULLETIN KPI STRIP */
+    .bulletin-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .b-kpi {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .b-kpi.tot { border-top: 3px solid var(--sgtm-blue); }
+    .b-kpi.srv { border-top: 3px solid var(--status-green); }
+    .b-kpi.pan { border-top: 3px solid var(--status-red); }
+    .b-kpi.dsp { border-top: 3px solid var(--status-amber); }
+
+    .b-kpi-val {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .b-kpi-lbl {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* BULLETIN TABLES */
+    .bulletin-section-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--sgtm-navy);
+      text-transform: uppercase;
+      margin: 14px 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bulletin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 11.5px;
+    }
+
+    .bulletin-table th {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 7px 10px;
+      font-weight: 800;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      border: 1px solid #0f172a;
+    }
+
+    .bulletin-table td {
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .bulletin-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .bulletin-table tr.total-row td {
+      background: #e2e8f0;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .bulletin-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 10px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* MODAL NEW SITE */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 360px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .modal-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--sgtm-navy);
+      margin-bottom: 12px;
+    }
+
+    .modal-card input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .modal-btn.confirm {
+      background: var(--sgtm-blue);
+      color: #fff;
+    }
+
+    .modal-btn.cancel {
+      background: #f1f5f9;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER APPLICATIF -->
+  <header class="app-header">
+    <div class="header-top">
+      <img id="header-logo" class="sgtm-logo-img" alt="SGTM Logo" src="SGTM_logo.png">
+      <div class="header-titles">
+        <h1>PORT TANGER MED PASSAGERS</h1>
+        <h2>ORGANISATION JOURNALIÈRE DE LA FLOTTE SGTM</h2>
+      </div>
+    </div>
+
+    <div class="header-meta">
+      <div class="meta-box">
+        <label for="input-date">Date du Jour</label>
+        <input type="date" id="input-date">
+      </div>
+      <div class="meta-box">
+        <label for="select-poste">Poste de Travail</label>
+        <select id="select-poste">
+          <option value="Poste Jour (06h - 18h)">Poste Jour (06h - 18h)</option>
+          <option value="Poste Nuit (18h - 06h)">Poste Nuit (18h - 06h)</option>
+          <option value="Journée Complète (24h)">Journée Complète (24h)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- KPI SUMMARY -->
+    <div class="kpi-grid">
+      <div class="kpi-card total">
+        <div class="kpi-label">Total</div>
+        <div class="kpi-value" id="kpi-total">0</div>
+        <div class="kpi-sub">Flotte SGTM</div>
+      </div>
+      <div class="kpi-card service">
+        <div class="kpi-label">En Service</div>
+        <div class="kpi-value" id="kpi-service">0</div>
+        <div class="kpi-sub">Carrières</div>
+      </div>
+      <div class="kpi-card panne">
+        <div class="kpi-label">En Panne</div>
+        <div class="kpi-value" id="kpi-panne">0</div>
+        <div class="kpi-sub">Immobilisés</div>
+      </div>
+      <div class="kpi-card dispo">
+        <div class="kpi-label">Réserve</div>
+        <div class="kpi-value" id="kpi-dispo">0</div>
+        <div class="kpi-sub">Disponibles</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: CAMIONS EN PANNE -->
+    <div class="section-header">
+      <div class="section-title">
+        <span>🔴 Camions en Panne</span>
+        <span class="badge-count" id="badge-panne-count">0</span>
+      </div>
+    </div>
+
+    <div class="panne-container">
+      <div class="panne-top-bar">
+        <div class="panne-badge-title">
+          <div class="panne-indicator"></div>
+          <div>
+            <strong style="font-size: 13px; color: #b91c1c;">Nombre de camions immobilisés</strong>
+            <p style="font-size: 10px; color: #64748b;">Pannes mécaniques, pneus, révisions...</p>
+          </div>
+        </div>
+
+        <div class="counter-widget">
+          <button class="btn-step" onclick="adjustPanneCount(-1)">−</button>
+          <input type="number" id="input-panne-count" class="counter-input" value="0" min="0" onchange="onPanneCountChange()">
+          <button class="btn-step" onclick="adjustPanneCount(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Detail list of breakdowns -->
+      <div id="panne-items-list" class="panne-items-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <button class="btn-add-panne" onclick="addNewPanneItem()">
+        <span>+ Ajouter détail camion (Matricule & Panne)</span>
+      </button>
+    </div>
+
+    <!-- SECTION 2: AFFECTATION PAR CARRIÈRE & SITE -->
+    <div class="section-header">
+      <div class="section-title">
+        <span>📍 Affectation Carrières & Chantiers</span>
+        <span class="badge-count" id="badge-sites-count">3 sites</span>
+      </div>
+    </div>
+
+    <div id="sites-list" class="sites-list">
+      <!-- Dynamic site cards rendered by JS -->
+    </div>
+
+    <!-- BUTTON ADD NEW SITE -->
+    <button class="btn-add-site-dialog" onclick="openAddSiteModal()">
+      <span style="font-size: 18px;">➕</span>
+      <span>Ajouter une Carrière / Destination</span>
+    </button>
+
+    <!-- SECTION 3: ACTIONS & SHARING -->
+    <div class="action-panel">
+      <!-- MAIN WHATSAPP BUTTON -->
+      <button class="btn-action-primary" onclick="shareToWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.072-1.025-.054-.236-.077-.541-.183-1.002-.383-1.968-.853-3.242-2.855-3.34-2.986-.099-.133-.799-1.059-.799-2.021 0-.962.503-1.436.682-1.632.179-.196.39-.245.52-.245.13 0 .26.002.373.007.12.006.279-.046.435.328.163.391.556 1.356.604 1.455.049.098.082.213.016.344-.065.131-.098.213-.196.328-.098.115-.207.256-.295.344-.099.098-.202.205-.087.402.115.197.512.845 1.102 1.37.76.677 1.401.887 1.601.986.199.099.317.087.435-.049.117-.136.505-.589.638-.791.134-.202.268-.169.45-.102.182.067 1.156.545 1.356.645.2.1.334.149.383.232.049.083.049.48-.095.885z"/>
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.982-1.399C8.423 21.492 10.153 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.635 0-3.17-.468-4.48-1.282l-.321-.199-2.965.832.845-2.887-.215-.337A8.165 8.165 0 0 1 3.8 12c0-4.521 3.679-8.2 8.2-8.2 4.522 0 8.2 3.679 8.2 8.2 0 4.522-3.678 8.2-8.2 8.2z"/>
+        </svg>
+        <span>PARTAGER WHATSAPP (PNG Haute Qualité)</span>
+      </button>
+
+      <!-- 2 SECONDARY ACTIONS -->
+      <div class="action-grid-2">
+        <button class="btn-action-secondary" onclick="exportToJPG()">
+          <span>📥 Exporter JPG</span>
+        </button>
+        <button class="btn-action-secondary amber" onclick="copyWhatsAppText()">
+          <span>📋 Copier Texte</span>
+        </button>
+      </div>
+
+      <!-- RESET DAY BUTTON -->
+      <button class="btn-action-outline" onclick="resetDayData()">
+        <span>🔄 Nouveau Jour / Réinitialiser</span>
+      </button>
+    </div>
+
+    <!-- PREVIEW AREA OF OFFICIAL BULLETIN -->
+    <div class="preview-section-title">Aperçu du Bulletin Officiel (Export WhatsApp/JPG)</div>
+
+    <div class="export-card-wrapper">
+      <div id="export-bulletin">
+        <!-- HEADER -->
+        <div class="bulletin-header">
+          <div class="bulletin-logo-box">
+            <img id="bulletin-logo" alt="SGTM" src="SGTM_logo.png">
+            <div class="bulletin-company-title">
+              <h3>SGTM</h3>
+              <p>PROJET PORT TANGER MED PASSAGERS</p>
+            </div>
+          </div>
+          <div class="bulletin-date-badge">
+            <div class="d-date" id="b-date">--/--/----</div>
+            <div class="d-poste" id="b-poste">Poste Jour</div>
+          </div>
+        </div>
+
+        <div class="bulletin-doc-title">ORGANISATION JOURNALIÈRE DE LA FLOTTE CAMIONS</div>
+
+        <!-- KPI STRIP -->
+        <div class="bulletin-kpi-strip">
+          <div class="b-kpi tot">
+            <div class="b-kpi-val" id="b-kpi-tot" style="color: var(--sgtm-blue);">0</div>
+            <div class="b-kpi-lbl">Total Flotte</div>
+          </div>
+          <div class="b-kpi srv">
+            <div class="b-kpi-val" id="b-kpi-srv" style="color: var(--status-green);">0</div>
+            <div class="b-kpi-lbl">En Service</div>
+          </div>
+          <div class="b-kpi pan">
+            <div class="b-kpi-val" id="b-kpi-pan" style="color: var(--status-red);">0</div>
+            <div class="b-kpi-lbl">En Panne</div>
+          </div>
+          <div class="b-kpi dsp">
+            <div class="b-kpi-val" id="b-kpi-dsp" style="color: #d97706;">0</div>
+            <div class="b-kpi-lbl">Réserve / Dispo</div>
+          </div>
+        </div>
+
+        <!-- TABLEAU 1: AFFECTATION SITES -->
+        <div class="bulletin-section-title">
+          <span>📍 1. RÉPARTITION DES CAMIONS PAR SITE & CARRIÈRE</span>
+        </div>
+        <table class="bulletin-table">
+          <thead>
+            <tr>
+              <th style="width: 32%;">Carrière / Destination</th>
+              <th style="width: 18%; text-align: center;">Nbre Camions</th>
+              <th style="width: 50%;">N° Camions / Matricules & Chauffeurs</th>
+            </tr>
+          </thead>
+          <tbody id="b-table-sites-body">
+            <!-- Rendered by JS -->
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td>TOTAL EN SERVICE</td>
+              <td style="text-align: center; color: var(--status-green);" id="b-total-service-cell">0</td>
+              <td style="font-size: 10px; color: #475569;">Camions opérationnels affectés</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <!-- TABLEAU 2: DETAIL PANNES -->
+        <div class="bulletin-section-title">
+          <span>🔴 2. ÉTAT DES CAMIONS EN PANNE / IMMOBILISÉS</span>
+        </div>
+        <table class="bulletin-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">N° Camion</th>
+              <th style="width: 35%;">Motif de la Panne</th>
+              <th style="width: 40%;">Lieu & Statut Atelier</th>
+            </tr>
+          </thead>
+          <tbody id="b-table-panne-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+
+        <!-- FOOTER -->
+        <div class="bulletin-footer">
+          <div>Généré le <span id="b-timestamp">--</span> | Réf: SGTM-TMED-DSP</div>
+          <div style="font-weight: 800; color: var(--sgtm-navy);">SGTM - DIRECTION MATÉRIEL & TRANSPORT</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast">
+    <span id="toast-icon">✅</span>
+    <span id="toast-msg">Opération réussie</span>
+  </div>
+
+  <!-- MODAL AJOUT CARRIÈRE / DESTINATION -->
+  <div id="modal-site" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Ajouter une Carrière / Site</h3>
+      <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Entrez le nom de la nouvelle destination (ex: Central à Béton, Digue, Stockage...)</p>
+      <input type="text" id="new-site-input" placeholder="Ex: CENTRAL A BETON" onkeydown="if(event.key==='Enter') confirmAddSite()">
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeAddSiteModal()">Annuler</button>
+        <button class="modal-btn confirm" onclick="confirmAddSite()">Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded SGTM Logo Base64
+    const SGTM_LOGO_BASE64 = "data:image/png;base64,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";
+
+    // DEFAULT DATA STRUCTURE
+    const DEFAULT_DATA = {
+      date: new Date().toISOString().split('T')[0],
+      poste: "Poste Jour (06h - 18h)",
+      totalFlotte: 25,
+      panneCount: 3,
+      pannes: [
+        { id: 1, matricule: "SGTM-104", motif: "Moteur (Injecteur)", observation: "Atelier Central" },
+        { id: 2, matricule: "SGTM-215", motif: "Pneu Crevé", observation: "Atelier Chantier" },
+        { id: 3, matricule: "SGTM-088", motif: "Boîte / Embrayage", observation: "Attente Pièce" }
+      ],
+      sites: [
+        {
+          id: "mrah-debbane",
+          name: "Carrière Mrah Debbane",
+          icon: "🏔️",
+          isCustom: false,
+          count: 8,
+          trucks: "101, 102, 105, 106, 110, 112, 118, 120",
+          notes: "Rotation régulière 0/100 & GII"
+        },
+        {
+          id: "med-agregats",
+          name: "Carrière Med Agregats",
+          icon: "⛰️",
+          isCustom: false,
+          count: 7,
+          trucks: "201, 203, 204, 208, 210, 212, 214",
+          notes: "Gravette 16/31.5 & Béton"
+        },
+        {
+          id: "laanasser",
+          name: "Carrière Laanasser",
+          icon: "🏗️",
+          isCustom: false,
+          count: 5,
+          trucks: "301, 302, 305, 307, 309",
+          notes: "Matériaux d'enrochement"
+        }
+      ]
+    };
+
+    let appData = {};
+
+    // INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set logos
+      document.getElementById('header-logo').src = SGTM_LOGO_BASE64;
+      document.getElementById('bulletin-logo').src = SGTM_LOGO_BASE64;
+
+      loadData();
+      renderUI();
+      setupEventListeners();
+    });
+
+    function loadData() {
+      const saved = localStorage.getItem('sgtm_flotte_data');
+      if (saved) {
+        try {
+          appData = JSON.parse(saved);
+        } catch(e) {
+          appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        }
+      } else {
+        appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      }
+
+      // Ensure date is valid
+      if (!appData.date) {
+        appData.date = new Date().toISOString().split('T')[0];
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem('sgtm_flotte_data', JSON.stringify(appData));
+      renderKPIs();
+      renderBulletinPreview();
+    }
+
+    function setupEventListeners() {
+      const inputDate = document.getElementById('input-date');
+      const selectPoste = document.getElementById('select-poste');
+
+      inputDate.value = appData.date;
+      selectPoste.value = appData.poste;
+
+      inputDate.addEventListener('change', (e) => {
+        appData.date = e.target.value;
+        saveData();
+      });
+
+      selectPoste.addEventListener('change', (e) => {
+        appData.poste = e.target.value;
+        saveData();
+      });
+    }
+
+    // RENDER FUNCTIONS
+    function renderUI() {
+      document.getElementById('input-date').value = appData.date;
+      document.getElementById('select-poste').value = appData.poste;
+      document.getElementById('input-panne-count').value = appData.panneCount;
+
+      renderPannesList();
+      renderSitesList();
+      renderKPIs();
+      renderBulletinPreview();
+    }
+
+    function renderKPIs() {
+      // Total camions en service = sum of sites count
+      const serviceCount = appData.sites.reduce((acc, s) => acc + (parseInt(s.count) || 0), 0);
+      const panneCount = parseInt(appData.panneCount) || 0;
+      
+      // Calculate or update total
+      if (!appData.totalFlotte || appData.totalFlotte < (serviceCount + panneCount)) {
+        appData.totalFlotte = serviceCount + panneCount + 2; // Auto-adjust buffer
+      }
+      
+      const dispoCount = Math.max(0, appData.totalFlotte - serviceCount - panneCount);
+
+      document.getElementById('kpi-total').textContent = appData.totalFlotte;
+      document.getElementById('kpi-service').textContent = serviceCount;
+      document.getElementById('kpi-panne').textContent = panneCount;
+      document.getElementById('kpi-dispo').textContent = dispoCount;
+
+      document.getElementById('badge-panne-count').textContent = panneCount + " camions";
+      document.getElementById('badge-sites-count').textContent = appData.sites.length + " sites";
+    }
+
+    /* PANNES SECTION */
+    function adjustPanneCount(delta) {
+      let current = parseInt(appData.panneCount) || 0;
+      current = Math.max(0, current + delta);
+      appData.panneCount = current;
+      document.getElementById('input-panne-count').value = current;
+      
+      // Auto adjust detailed rows if count increased
+      while (appData.pannes.length < current) {
+        appData.pannes.push({
+          id: Date.now() + Math.random(),
+          matricule: "CAMION-" + (appData.pannes.length + 1),
+          motif: "Panne Mécanique",
+          observation: "Atelier Chantier"
+        });
+      }
+
+      saveData();
+      renderPannesList();
+    }
+
+    function onPanneCountChange() {
+      const val = parseInt(document.getElementById('input-panne-count').value) || 0;
+      appData.panneCount = Math.max(0, val);
+      saveData();
+      renderPannesList();
+    }
+
+    function renderPannesList() {
+      const container = document.getElementById('panne-items-list');
+      container.innerHTML = '';
+
+      appData.pannes.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = 'panne-item-row';
+        row.innerHTML = `
+          <div class="panne-row-fields">
+            <input type="text" placeholder="Matricule (ex: 1234-A-1)" value="${p.matricule || ''}" onchange="updatePanneItem(${idx}, 'matricule', this.value)">
+            <select onchange="updatePanneItem(${idx}, 'motif', this.value)">
+              <option value="Moteur" ${p.motif.includes('Moteur') ? 'selected' : ''}>⚙️ Moteur / Injection</option>
+              <option value="Pneu / Crevaison" ${p.motif.includes('Pneu') ? 'selected' : ''}>🛞 Pneu / Crevaison</option>
+              <option value="Boîte / Embrayage" ${p.motif.includes('Boîte') ? 'selected' : ''}>🕹️ Boîte / Embrayage</option>
+              <option value="Freinage" ${p.motif.includes('Frein') ? 'selected' : ''}>🛑 Freinage</option>
+              <option value="Hydraulique" ${p.motif.includes('Hydraulique') ? 'selected' : ''}>💧 Système Hydraulique</option>
+              <option value="Électrique" ${p.motif.includes('Électrique') ? 'selected' : ''}>⚡ Électrique / Batterie</option>
+              <option value="Révision / Vidange" ${p.motif.includes('Révision') ? 'selected' : ''}>🔧 Révision / Vidange</option>
+              <option value="Autre" ${(!p.motif.includes('Moteur') && !p.motif.includes('Pneu') && !p.motif.includes('Boîte') && !p.motif.includes('Frein') && !p.motif.includes('Hydraulique') && !p.motif.includes('Électrique') && !p.motif.includes('Révision')) ? 'selected' : ''}>⚠️ Autre Défaillance</option>
+            </select>
+            <button class="btn-del-item" onclick="deletePanneItem(${idx})">✕</button>
+          </div>
+          <input type="text" style="width: 100%;" placeholder="Observation / Atelier (ex: Atelier Central, En attente pièce...)" value="${p.observation || ''}" onchange="updatePanneItem(${idx}, 'observation', this.value)">
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updatePanneItem(index, field, value) {
+      if (appData.pannes[index]) {
+        appData.pannes[index][field] = value;
+        saveData();
+      }
+    }
+
+    function deletePanneItem(index) {
+      appData.pannes.splice(index, 1);
+      appData.panneCount = appData.pannes.length;
+      document.getElementById('input-panne-count').value = appData.panneCount;
+      saveData();
+      renderPannesList();
+    }
+
+    function addNewPanneItem() {
+      appData.pannes.push({
+        id: Date.now(),
+        matricule: "",
+        motif: "Moteur",
+        observation: "Atelier Chantier"
+      });
+      appData.panneCount = appData.pannes.length;
+      document.getElementById('input-panne-count').value = appData.panneCount;
+      saveData();
+      renderPannesList();
+    }
+
+    /* SITES / CARRIÈRES SECTION */
+    function renderSitesList() {
+      const container = document.getElementById('sites-list');
+      container.innerHTML = '';
+
+      appData.sites.forEach((site, idx) => {
+        const card = document.createElement('div');
+        card.className = 'site-card';
+        card.innerHTML = `
+          <div class="site-header">
+            <div class="site-title-wrap">
+              <div class="site-icon">${site.icon || '📍'}</div>
+              <div>
+                <span class="site-name">${site.name}</span>
+                ${site.isCustom ? '<span class="site-custom-badge">Personnalisé</span>' : ''}
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="counter-widget">
+                <button class="btn-step" onclick="adjustSiteCount(${idx}, -1)">−</button>
+                <input type="number" class="counter-input" value="${site.count || 0}" min="0" onchange="onSiteCountInput(${idx}, this.value)">
+                <button class="btn-step" onclick="adjustSiteCount(${idx}, 1)">+</button>
+              </div>
+              ${site.isCustom ? `<button class="btn-del-site" title="Supprimer le site" onclick="deleteCustomSite(${idx})">🗑️</button>` : ''}
+            </div>
+          </div>
+
+          <div class="site-trucks-input-wrap">
+            <label>N° Camions / Matricules affectés :</label>
+            <input type="text" class="site-trucks-input" placeholder="Ex: 101, 102, 105, 108..." value="${site.trucks || ''}" onchange="updateSiteField(${idx}, 'trucks', this.value)">
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function adjustSiteCount(siteIndex, delta) {
+      if (appData.sites[siteIndex]) {
+        let current = parseInt(appData.sites[siteIndex].count) || 0;
+        appData.sites[siteIndex].count = Math.max(0, current + delta);
+        saveData();
+        renderSitesList();
+      }
+    }
+
+    function onSiteCountInput(siteIndex, value) {
+      if (appData.sites[siteIndex]) {
+        appData.sites[siteIndex].count = Math.max(0, parseInt(value) || 0);
+        saveData();
+      }
+    }
+
+    function updateSiteField(siteIndex, field, value) {
+      if (appData.sites[siteIndex]) {
+        appData.sites[siteIndex][field] = value;
+        saveData();
+      }
+    }
+
+    function openAddSiteModal() {
+      document.getElementById('new-site-input').value = '';
+      document.getElementById('modal-site').classList.add('active');
+      document.getElementById('new-site-input').focus();
+    }
+
+    function closeAddSiteModal() {
+      document.getElementById('modal-site').classList.remove('active');
+    }
+
+    function confirmAddSite() {
+      const name = document.getElementById('new-site-input').value.trim();
+      if (!name) {
+        showToast('Veuillez entrer un nom valide', '⚠️');
+        return;
+      }
+
+      appData.sites.push({
+        id: 'site-' + Date.now(),
+        name: name.toUpperCase(),
+        icon: '🚛',
+        isCustom: true,
+        count: 0,
+        trucks: '',
+        notes: ''
+      });
+
+      closeAddSiteModal();
+      saveData();
+      renderSitesList();
+      showToast('Nouveau site ajouté : ' + name, '✅');
+    }
+
+    function deleteCustomSite(index) {
+      if (confirm('Voulez-vous supprimer ce site ?')) {
+        appData.sites.splice(index, 1);
+        saveData();
+        renderSitesList();
+        showToast('Site supprimé', '🗑️');
+      }
+    }
+
+    /* RENDER BULLETIN PREVIEW FOR EXPORT */
+    function renderBulletinPreview() {
+      const dateParts = appData.date.split('-');
+      const formattedDate = dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : appData.date;
+      
+      document.getElementById('b-date').textContent = formattedDate;
+      document.getElementById('b-poste').textContent = appData.poste;
+
+      const serviceCount = appData.sites.reduce((acc, s) => acc + (parseInt(s.count) || 0), 0);
+      const panneCount = parseInt(appData.panneCount) || 0;
+      const dispoCount = Math.max(0, appData.totalFlotte - serviceCount - panneCount);
+
+      document.getElementById('b-kpi-tot').textContent = appData.totalFlotte;
+      document.getElementById('b-kpi-srv').textContent = serviceCount;
+      document.getElementById('b-kpi-pan').textContent = panneCount;
+      document.getElementById('b-kpi-dsp').textContent = dispoCount;
+
+      document.getElementById('b-total-service-cell').textContent = serviceCount;
+
+      // Table Sites Body
+      const tbodySites = document.getElementById('b-table-sites-body');
+      tbodySites.innerHTML = '';
+      appData.sites.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${s.name}</strong></td>
+          <td style="text-align: center; font-size: 13px; font-weight: 800; color: var(--sgtm-blue);">${s.count || 0}</td>
+          <td style="font-size: 11px;">${s.trucks ? s.trucks : '<span style="color:#94a3b8; font-style:italic;">Non spécifié</span>'}</td>
+        `;
+        tbodySites.appendChild(tr);
+      });
+
+      // Table Panne Body
+      const tbodyPanne = document.getElementById('b-table-panne-body');
+      tbodyPanne.innerHTML = '';
+      if (appData.pannes.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="3" style="text-align:center; color: #10b981; font-weight: bold; padding: 10px;">✅ Aucun camion en panne - Flotte 100% opérationnelle</td>`;
+        tbodyPanne.appendChild(tr);
+      } else {
+        appData.pannes.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong style="color:#dc2626;">${p.matricule || 'N/A'}</strong></td>
+            <td>${p.motif || 'Défaillance'}</td>
+            <td>${p.observation || 'Atelier'}</td>
+          `;
+          tbodyPanne.appendChild(tr);
+        });
+      }
+
+      // Timestamp
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.getElementById('b-timestamp').textContent = `${formattedDate} à ${timeStr}`;
+    }
+
+    /* EXPORT & SHARE FUNCTIONS */
+
+    // 1. EXPORT TO JPG
+    async function exportToJPG() {
+      const bulletin = document.getElementById('export-bulletin');
+      showToast('Génération de l\'image JPG en cours...', '⏳');
+
+      try {
+        const canvas = await html2canvas(bulletin, {
+          scale: 2.5,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+
+        const image = canvas.toDataURL('image/jpeg', 0.95);
+        const link = document.createElement('a');
+        link.download = `Organisation_Camions_SGTM_${appData.date}.jpg`;
+        link.href = image;
+        link.click();
+
+        showToast('Image JPG téléchargée avec succès !', '✅');
+      } catch (err) {
+        console.error(err);
+        showToast('Erreur lors de la génération JPG', '❌');
+      }
+    }
+
+    // 2. SHARE TO WHATSAPP (PNG HD + Web Share API / Direct Fallback)
+    async function shareToWhatsApp() {
+      const bulletin = document.getElementById('export-bulletin');
+      showToast('Préparation du partage WhatsApp...', '⏳');
+
+      try {
+        const canvas = await html2canvas(bulletin, {
+          scale: 2.5,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+
+        const textMessage = buildWhatsAppMessage();
+
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            fallbackWhatsAppOnly(textMessage);
+            return;
+          }
+
+          const file = new File([blob], `Organisation_Camions_SGTM_${appData.date}.png`, { type: 'image/png' });
+
+          // Check if native file sharing is supported on this mobile device
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: 'Organisation Camions SGTM',
+                text: textMessage
+              });
+              showToast('Partagé avec succès !', '✅');
+              return;
+            } catch (shareErr) {
+              if (shareErr.name !== 'AbortError') {
+                console.warn('Share API error, falling back:', shareErr);
+              } else {
+                return; // User cancelled dialog
+              }
+            }
+          }
+
+          // Fallback: Download file + copy text + open WhatsApp Web/App
+          const link = document.createElement('a');
+          link.download = `Organisation_Camions_SGTM_${appData.date}.png`;
+          link.href = URL.createObjectURL(blob);
+          link.click();
+
+          navigator.clipboard.writeText(textMessage).then(() => {
+            showToast('Image PNG téléchargée & texte copié !', '📋');
+          });
+
+          // Open WhatsApp with text
+          const waUrl = `https://wa.me/?text=${encodeURIComponent(textMessage)}`;
+          setTimeout(() => {
+            window.open(waUrl, '_blank');
+          }, 600);
+
+        }, 'image/png');
+
+      } catch (err) {
+        console.error(err);
+        fallbackWhatsAppOnly(buildWhatsAppMessage());
+      }
+    }
+
+    function fallbackWhatsAppOnly(msg) {
+      navigator.clipboard.writeText(msg).then(() => {
+        showToast('Texte copié dans le presse-papier !', '📋');
+        const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank');
+      });
+    }
+
+    // 3. COPY WHATSAPP TEXT
+    function copyWhatsAppText() {
+      const msg = buildWhatsAppMessage();
+      navigator.clipboard.writeText(msg).then(() => {
+        showToast('Résumé WhatsApp copié !', '📋');
+      }).catch(() => {
+        showToast('Erreur copie', '❌');
+      });
+    }
+
+    function buildWhatsAppMessage() {
+      const dateParts = appData.date.split('-');
+      const formattedDate = dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : appData.date;
+      const serviceCount = appData.sites.reduce((acc, s) => acc + (parseInt(s.count) || 0), 0);
+      const panneCount = parseInt(appData.panneCount) || 0;
+      const dispoCount = Math.max(0, appData.totalFlotte - serviceCount - panneCount);
+
+      let txt = `🏗️ *SGTM - PROJET PORT TANGER MED PASSAGERS*\n`;
+      txt += `📋 *ORGANISATION JOURNALIÈRE DE LA FLOTTE*\n`;
+      txt += `📅 *Date :* ${formattedDate}\n`;
+      txt += `⏰ *Poste :* ${appData.poste}\n`;
+      txt += `─────────────────────────\n`;
+      txt += `📊 *BILAN GLOBAL :*\n`;
+      txt += `🚛 *Total Flotte SGTM :* ${appData.totalFlotte} camions\n`;
+      txt += `🟢 *En Service :* ${serviceCount} camions\n`;
+      txt += `🔴 *En Panne :* ${panneCount} camions\n`;
+      txt += `⚪ *En Réserve :* ${dispoCount} camions\n`;
+      txt += `─────────────────────────\n`;
+      txt += `📍 *AFFECTATION PAR CARRIÈRE & SITE :*\n`;
+      
+      appData.sites.forEach(s => {
+        txt += `🔹 *${s.name} :* ${s.count || 0} camion(s)\n`;
+        if (s.trucks) {
+          txt += `   └ Camions : ${s.trucks}\n`;
+        }
+      });
+
+      txt += `─────────────────────────\n`;
+      txt += `🔴 *DÉTAIL DES PANNES (${panneCount}) :*\n`;
+      if (appData.pannes.length === 0) {
+        txt += `✅ Aucun camion en panne.\n`;
+      } else {
+        appData.pannes.forEach((p, i) => {
+          txt += `${i+1}. *${p.matricule || 'Camion'}* : ${p.motif || 'Panne'} (${p.observation || 'Atelier'})\n`;
+        });
+      }
+
+      txt += `─────────────────────────\n`;
+      txt += `👷‍♂️ *SGTM - Direction Matériel & Transport*\n`;
+      return txt;
+    }
+
+    // 4. RESET DAY
+    function resetDayData() {
+      if (confirm("Voulez-vous réinitialiser les affectations pour un nouveau jour ? Les sites créés seront conservés.")) {
+        appData.date = new Date().toISOString().split('T')[0];
+        appData.sites.forEach(s => {
+          s.count = 0;
+          s.trucks = "";
+        });
+        appData.pannes = [];
+        appData.panneCount = 0;
+        saveData();
+        renderUI();
+        showToast('Nouvelle journée initialisée !', '✨');
+      }
+    }
+
+    // TOAST HELPER
+    function showToast(message, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = message;
+      document.getElementById('toast-icon').textContent = icon;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
