@@ -1,0 +1,17 @@
+{
+  "name": "SGTM Organisation Flotte Camions",
+  "short_name": "SGTM Flotte",
+  "description": "Organisation journalière des camions SGTM - Projet Port Tanger Med Passagers",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0F2B5C",
+  "theme_color": "#0F2B5C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./SGTM_logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
+}
