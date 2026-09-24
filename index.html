@@ -2782,8 +2782,8 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       }
     }
 
-    async function shareImageOnlyWhatsApp(elementOrId, filename, shareTitle, fallbackText) {
-      showToast('Préparation de l\'image HD WhatsApp...', '⏳');
+    async function shareImageOnlyWhatsApp(elementOrId, filename, shareTitle) {
+      showToast('Préparation de l\'affiche PNG HD...', '⏳');
       try {
         const blob = await renderBulletinBlob(elementOrId, 'png');
         const file = new File([blob], filename, { type: 'image/png' });
@@ -2802,17 +2802,9 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
           }
         }
 
-        // Direct fallback
+        // Direct fallback: Téléchargement photo seule pour envoi WhatsApp
         triggerBlobDownload(blob, filename);
-        if (fallbackText) {
-          navigator.clipboard.writeText(fallbackText);
-          showToast('Image téléchargée & résumé copié !', '📋');
-          setTimeout(() => {
-            window.open(`https://wa.me/?text=${encodeURIComponent(fallbackText)}`, '_blank');
-          }, 600);
-        } else {
-          showToast('Image HD téléchargée pour WhatsApp !', '📥');
-        }
+        showToast('Image HD prête pour envoi WhatsApp !', '📥');
       } catch (err) {
         console.error(err);
         showToast('Erreur partage WhatsApp', '❌');
@@ -2835,8 +2827,7 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       await shareImageOnlyWhatsApp(
         el,
         `Bulletin_1_Carrieres_SGTM_${getExportDateStr()}.png`,
-        'Bulletin Carrières - SGTM',
-        buildWhatsAppMessage('carriere')
+        'Bulletin Carrières - SGTM'
       );
     }
 
@@ -2855,8 +2846,7 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       await shareImageOnlyWhatsApp(
         el,
         `Bulletin_2_Pannes_SGTM_${getExportDateStr()}.png`,
-        'Bulletin Pannes - SGTM',
-        buildWhatsAppMessage('panne')
+        'Bulletin Pannes - SGTM'
       );
     }
 
@@ -2875,7 +2865,7 @@ const SGTM_LOGO_WHITE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA6
       if (currentBulletinTab === 'carriere') return shareCarriereWhatsApp();
       if (currentBulletinTab === 'panne') return sharePanneWhatsApp();
       const el = getBulletinElement('complet');
-      await shareImageOnlyWhatsApp(el, `Synthese_Flotte_SGTM_${getExportDateStr()}.png`, 'Synthèse Flotte SGTM', buildWhatsAppMessage('complet'));
+      await shareImageOnlyWhatsApp(el, `Synthese_Flotte_SGTM_${getExportDateStr()}.png`, 'Synthèse Flotte SGTM');
     }
 
     async function exportToJPG() {
